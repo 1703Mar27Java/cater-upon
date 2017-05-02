@@ -1,0 +1,13 @@
+2017-05-02 16:35:47,995 [Worker-15] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.revature:CaterUpon:0.0.1-SNAPSHOT @ C:\Users\Biehl\Desktop\cater-upon\CaterUpon\pom.xml.
+2017-05-02 16:35:50,930 [Worker-15] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /CaterUpon/src/main/java
+2017-05-02 16:35:50,934 [Worker-15] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /CaterUpon/src/main/resources
+2017-05-02 16:35:50,936 [Worker-15] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /CaterUpon/src/test/java
+2017-05-02 16:35:50,936 [Worker-15] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /CaterUpon/src/test/resources
+2017-05-02 16:35:58,786 [Worker-4] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-05-02 16:35:58,873 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-02 16:35:58,878 [Worker-4] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-05-02 16:35:58,896 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-02 16:36:27,559 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-05-02 16:36:27,580 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-05-02 16:36:27,584 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-05-02 16:36:27,614 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
