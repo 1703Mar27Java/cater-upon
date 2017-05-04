@@ -2,6 +2,8 @@ package com.revature.domain;
 
 import javax.persistence.*;
 
+import com.revature.enums.StatusTypes;
+
 @Entity
 @Table(name = "CU_STATUSTYPE")
 public class StatusType {

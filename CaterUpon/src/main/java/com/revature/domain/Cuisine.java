@@ -2,6 +2,8 @@ package com.revature.domain;
 
 import javax.persistence.*;
 
+import com.revature.enums.Cuisines;
+
 @Entity
 @Table(name = "CU_CUISINES")
 public class Cuisine {

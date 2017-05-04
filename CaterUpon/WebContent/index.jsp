@@ -34,7 +34,7 @@
           
 				
 
-			
+			<!--  
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown navbar-right"><a href="#" class="dropdown-toggle "
@@ -51,6 +51,7 @@
 						</ul></li>
 				</ul>
 			</div>
+			-->
 		</nav>
 	</div>
 

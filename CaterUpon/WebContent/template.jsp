@@ -48,12 +48,14 @@
 							<li><a href="#" style="color: #F7A247;">Another action</a></li>
 							<li><a href="#" style="color: #F7A247;">Something else
 									here</a></li>
-							<li role="separator" class="divider" style="color: #F4BFFF;"></li>
-							<li class="dropdown-header" style="color: #F7A247;"><strong>Nav
-									header</strong></li>
-							<li><a href="#" style="color: #F7A247;">Separated link</a></li>
-							<li><a href="#" style="color: #F7A247;">One more
-									separated link</a></li>
+									
+									
+							<li role="separator" class="divider" style="color: #F4BFFF;"></li> 
+							<li class="dropdown-header" style="color: #F7A247;"></li>
+							<li class="dropdown-header" style="color: #F7A247;"></li>
+							<li class="dropdown-header" style="color: #F7A247;"></li>
+							
+							<li><a href="logout.jsp" style="color: #F7A247;">Log Out</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -61,6 +63,7 @@
 	</div>
 	
 	<div class="pageContent">
+		
 	
 	</div>
 </body>

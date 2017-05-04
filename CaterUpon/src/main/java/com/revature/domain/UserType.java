@@ -2,6 +2,8 @@ package com.revature.domain;
 
 import javax.persistence.*;
 
+import com.revature.enums.UserTypes;
+
 @Entity
 @Table(name = "CU_USERTYPES")
 public class UserType {

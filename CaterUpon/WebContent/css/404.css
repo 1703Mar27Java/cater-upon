@@ -1,0 +1,20 @@
+@CHARSET "ISO-8859-1";
+
+body
+{
+    background: url('../img/404.jpeg') fixed;
+    background-size: 100% 100%;
+    padding: 0;
+    margin: 0; 
+}
+.pageContent {
+	color: #752825;
+	margin-right:15%;
+	font-weight: 900;
+	font-size: 2em;
+	font-family: "Brush Script MT", cursive;
+	
+}
+p, h2, h3, h4, h5 {
+	color: #752825;
+} 
