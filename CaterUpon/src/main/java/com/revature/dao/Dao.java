@@ -1,10 +1,7 @@
 package com.revature.dao;
 
 import java.util.List;
-
-import com.revature.domain.Order;
-import com.revature.domain.State;
-import com.revature.domain.User;
+import com.revature.domain.*;
 
 public interface Dao {
 
@@ -12,17 +9,32 @@ public interface Dao {
 	public List<User> getUsers();
 	public List<Order> getOrders();
 	
-	// Returns a User/Caterer by Id
+	// Returns by Id
 	public User getUserById(int id);
 	public Order getOrderById(int id);
 	
-	// Saves a User/Caterer
+	// Save
 	public int saveUser(User user);
 	public int saveOrder(Order order);
+	public int saveCaterer(Caterer caterer);
+	public int saveReview(Review review);
 	
-	// Persist User/Caterer
+	public int saveCuisine(Cuisine cuisine);
+	public int saveState(State state);
+	public int saveStatusType(StatusType statusType);
+	public int saveUserType(UserType userType);
+	
+	// Persist
 	public void persistUser(User user);
 	public void persistOrder(Order order);
+	public void persistReview(Review review);
+	public void persistCaterer(Caterer caterer);
 	
 	public void persistState(State state);
+	public void persistCuisine(Cuisine cuisine);
+	public void persistStatusType(StatusType statusType);
+	public void persistUserType(UserType userType);
+	
+	// Functionality 
+	public boolean login(User user);
 }
