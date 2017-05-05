@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>CaterUpon</title>
 
-<link href="img/favicon.ico" rel="icon" type="image/x-icon">
+<link href=<c:url value="/resources/img/favicon.ico" /> rel="icon" type="image/x-icon">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -23,14 +27,14 @@
 	crossorigin="anonymous">
 	
 </script>
-<link type="text/css" media="all" href="css/style.css" rel="stylesheet">
+<link type="text/css" media="all" href=<c:url value="/resources/css/style.css" /> rel="stylesheet">
 <body>
 
 	<div class="header">
 		<nav class="navbar navbar-inverse" style="background-color: #495867 ;">
 		<div class="container">
 			<!-- Logo Image Goes Here -->
-			<img src="img/logo.png" style="float: left;">
+			<img src=<c:url value="/resources/img/logo.png" /> style="float: left;" width="300" height="75">
 
 
 

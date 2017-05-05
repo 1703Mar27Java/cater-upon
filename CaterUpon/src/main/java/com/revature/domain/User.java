@@ -66,21 +66,7 @@ public class User {
 		this.user_Id = user_Id;
 	}
 
-	public String getUser_Username() {
-		return user_Username;
-	}
-
-	public void setUser_Username(String user_Username) {
-		this.user_Username = user_Username;
-	}
-
-	public String getUser_Password() {
-		return user_Password;
-	}
-
-	public void setUser_Password(String user_Password) {
-		this.user_Password = user_Password;
-	}
+	
 
 	public String getUser_Email() {
 		return user_Email;
@@ -186,5 +172,21 @@ public class User {
 		} else if (!user_Username.equals(other.user_Username))
 			return false;
 		return true;
+	}
+
+	public String getUser_Username() {
+		return user_Username;
+	}
+
+	public void setUser_Username(String user_Username) {
+		this.user_Username = user_Username;
+	}
+
+	public String getUser_Password() {
+		return user_Password;
+	}
+
+	public void setUser_Password(String user_Password) {
+		this.user_Password = user_Password;
 	}
 }
