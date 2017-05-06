@@ -5,10 +5,6 @@ import com.revature.domain.*;
 
 public interface Dao {
 
-	// Returns list from table
-	public List<User> getUsers();
-	public List<Order> getOrders();
-	
 	// Returns by Id
 	public User getUserById(int id);
 	public Order getOrderById(int id);

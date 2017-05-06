@@ -9,37 +9,13 @@ import com.revature.domain.*;
 import com.revature.enums.Cuisines;
 import com.revature.enums.States;
 
-public class DaoImpl implements Dao {
-
-	
+public class DaoImpl implements Dao {	
 	List<User> AllUsers;
-	
-	
-	
-	
+
 	public DaoImpl() {
 		super();
-		AllUsers = getUsers();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
-		Session sesh = HibernateUtil.getSession();
-		users = sesh.createQuery("from User").list();
-		sesh.close();
-		return users;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Order> getOrders() {
-		List<Order> orders = new ArrayList<Order>();
-		Session sesh = HibernateUtil.getSession();
-		orders = sesh.createQuery("from Order").list();
-		return orders;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -157,7 +133,7 @@ public class DaoImpl implements Dao {
 		for (Cuisines cuisine : Cuisines.values()) {
 			Cuisine newCuisine = new Cuisine();
 			newCuisine.setCuisine_Type(cuisine);
-			newCuisine.setCuisine_Id(cuisinesCounter);
+			newCuisine.setCaterer_Id(cuisinesCounter);
 			cuisinesCounter++;
 			System.out.println(newCuisine.getCuisine_Type());
 			sesh.save(newCuisine);
@@ -208,13 +184,20 @@ public class DaoImpl implements Dao {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean login(User user) {
-		for (int i = 0; i < AllUsers.size(); i++) {
-			if (AllUsers.get(i).getUser_Username().equals(user.getUser_Username()) && AllUsers.get(i).getUser_Password().equals(user.getUser_Password()))
-				return true;
-		}
+		Session sesh = HibernateUtil.getSession();
+		List<User> users = sesh.createQuery("from User where USER_USERNAME = :username and USER_PASSWORD = :password").
+				setString("username", user.getUser_Username()).setString("password", user.getUser_Password()).list();
 
+		if(!users.isEmpty())
+		{
+			user = users.get(0);
+			return true;
+		}
+		
+		sesh.close();
 		return false;
 	}
 

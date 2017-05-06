@@ -20,19 +20,9 @@ public class MainClass {
 		System.out.println(user.toString());
 		
 		DaoImpl dao = new DaoImpl();
+		user.setUser_Username("user");
+		user.setUser_Password("pass");
 		
-		dao.persistUser(user);
-		dao.persistOrder(order);
-		
-		int stateCounter = 0;
-//		for(States state : States.values())
-//		{
-//			State newState = new State();
-//			newState.setState_Name(state.toString());
-//			newState.setState_Id(stateCounter);
-//			stateCounter++;
-//			dao.persistState(newState);
-//		}
+		System.out.println(dao.login(user));
 	}
-
 }
