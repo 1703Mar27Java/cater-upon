@@ -60,7 +60,8 @@
 	</div>
 	
 	<div class="pageContent">
-		
+		<h1>SUCCESS , welcome ${userBean}</h1>
+		<h2>caterer request page</h2>
 	
 	</div>
 </body>

@@ -9,6 +9,8 @@ public interface Dao {
 	public List<User> getUsers();
 	public List<Order> getOrders();
 	
+	public User getUserByUsername(String userName);
+	
 	// Returns by Id
 	public User getUserById(int id);
 	public Order getOrderById(int id);

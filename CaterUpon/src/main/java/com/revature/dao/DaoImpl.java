@@ -43,6 +43,19 @@ public class DaoImpl implements Dao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public User getUserByUsername(String userName) {
+		User user = null;
+		List<User> users = new ArrayList<User>();
+		Session sesh = HibernateUtil.getSession();
+		users = sesh.createQuery("from User where USER_USERNAME = :var").setString("var", userName).list();
+		if (!users.isEmpty()) {
+			user = users.get(0);
+		}
+		return user;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public User getUserById(int id) {
 		User user = null;
 		List<User> users = new ArrayList<User>();
@@ -148,7 +161,7 @@ public class DaoImpl implements Dao {
 		tx.commit();
 		sesh.close();
 	}
-
+/*
 	public void saveAllCuisines() {
 		int cuisinesCounter = 0;
 		Session sesh = HibernateUtil.getSession();
@@ -165,7 +178,7 @@ public class DaoImpl implements Dao {
 		tx.commit();
 		sesh.close();
 	}
-
+*/
 	@Override
 	public int saveStatusType(StatusType statusType) {
 		// TODO Auto-generated method stub
@@ -217,5 +230,7 @@ public class DaoImpl implements Dao {
 
 		return false;
 	}
+
+	
 
 }

@@ -20,6 +20,6 @@
 			<mapping class="com.revature.domain.User" />
 			<mapping class="com.revature.domain.Order" />
 			<mapping class="com.revature.domain.State" />
-			<!-- <mapping class="one.to.many.Order" /> -->
+			
 		</session-factory>
 	</hibernate-configuration>
