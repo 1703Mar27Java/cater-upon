@@ -16,7 +16,6 @@ public class DaoImpl implements Dao {
 		super();
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserById(int id) {
