@@ -3,7 +3,7 @@ package com.revature.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CU_USERS")
+@Table(name = "CU_USERS", uniqueConstraints=@UniqueConstraint(columnNames = {"USER_USERNAME"}))
 public class User {
 
 	@Id

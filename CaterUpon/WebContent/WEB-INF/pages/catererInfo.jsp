@@ -49,8 +49,7 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu " style="background-color: #495860;">
-							<li><a href="catererInfo" style="color: #F7A247;">Edit your
-									Information/Profile</a></li>
+							<li><a href="caterer" style="color: #F7A247;">View Your Event Requests</a></li>
 
 							<li role="separator" class="divider" style="color: #F4BFFF;"></li>
 							<li class="dropdown-header" style="color: #F7A247;"></li>
@@ -68,7 +67,7 @@
 	<div class="pageContent">
 
 		<h1>SUCCESS , welcome ${user_Username}</h1>
-		<h2>caterer request page</h2>
+		<h2>caterer info page</h2>
 	</div>
 </body>
 </html>

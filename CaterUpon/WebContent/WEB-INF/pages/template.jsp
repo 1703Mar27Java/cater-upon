@@ -30,15 +30,12 @@
 <link type="text/css" media="all" href=<c:url value="/resources/css/style.css" /> rel="stylesheet">
 <body>
 
+	<!-- Page  header here. Contains logo and site navigation -->
 	<div class="header">
 		<nav class="navbar navbar-inverse" style="background-color: #495867 ;">
 		<div class="container">
 			<!-- Logo Image Goes Here -->
 			<img src=<c:url value="/resources/img/logo.png" /> style="float: left;" width="300" height="75">
-
-
-
-
 
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
@@ -50,16 +47,13 @@
 						<ul class="dropdown-menu " style="background-color: #495860;">
 							<li><a href="#" style="color: #F7A247;">Action</a></li>
 							<li><a href="#" style="color: #F7A247;">Another action</a></li>
-							<li><a href="#" style="color: #F7A247;">Something else
-									here</a></li>
-									
-									
+							
 							<li role="separator" class="divider" style="color: #F4BFFF;"></li> 
 							<li class="dropdown-header" style="color: #F7A247;"></li>
 							<li class="dropdown-header" style="color: #F7A247;"></li>
 							<li class="dropdown-header" style="color: #F7A247;"></li>
 							
-							<li><a href="logout.jsp" style="color: #F7A247;">Log Out</a></li>
+							<li><a href="logout" style="color: #F7A247;">Log Out</a></li>
 						</ul></li>
 				</ul>
 			</div>

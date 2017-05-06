@@ -56,7 +56,7 @@
 					</div>
 					<div class="wrap ">
 						<p class="form-title ">Sign In</p>
-						<form:form method="GET" action="login"
+						<form:form method="POST" action="login"
 							class="login card card-container">
 							<form:input path="user_Username" type="text"
 								placeholder="Username" />

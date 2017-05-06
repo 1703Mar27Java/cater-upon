@@ -28,6 +28,7 @@ public class DaoImpl implements Dao {
 		List<User> users = new ArrayList<User>();
 		Session sesh = HibernateUtil.getSession();
 		users = sesh.createQuery("from User").list();
+		sesh.close();
 		return users;
 	}
 

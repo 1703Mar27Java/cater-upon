@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.revature.dao.DaoImpl;
 import com.revature.domain.User;
 
 @Controller
 public class CatererController {
-	private String sn = "richard";
-	private String sp = "wingert";
 
 	@RequestMapping(value = "/404")
 	public String error404() {
@@ -28,15 +27,16 @@ public class CatererController {
 		return model;
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String addPerson(@ModelAttribute("command") User p, Model m) {
-		if (p != null)
-			if (p.getUser_Username().equals(sn) && p.getUser_Password().equals(sp)) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@ModelAttribute("command") User p, Model m) {
+		if (p != null) {
+			DaoImpl dao = new DaoImpl();
+			if (dao.login(p)) {
 				m.addAttribute("user_Username", p.getUser_Username());
 				m.addAttribute("user_Password", p.getUser_Password());
-				System.out.println(p.getUser_Username() + " " + p.getUser_Password());
 				return "caterer";
-			} 
+			}
+		}
 		return "index";
 	}
 

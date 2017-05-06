@@ -10,7 +10,7 @@
 <body>
 	<%
 		session.invalidate();
-		response.sendRedirect("login");
+		response.sendRedirect("/CaterUpon/");
 	%>
 </body>
 </html>
