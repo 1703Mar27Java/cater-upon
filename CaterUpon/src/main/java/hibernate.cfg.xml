@@ -27,5 +27,6 @@
 			<mapping class="com.revature.domain.UserType" />
 			<mapping class="com.reavture.domain.StatusType"/>
 			<!-- <mapping class="one.to.many.Order" /> -->
+
 		</session-factory>
 	</hibernate-configuration>
