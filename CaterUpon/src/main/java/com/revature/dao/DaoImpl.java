@@ -16,7 +16,6 @@ public class DaoImpl implements Dao {
 		super();
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserByUsername(String userName) {
@@ -98,20 +97,23 @@ public class DaoImpl implements Dao {
 
 	@Override
 	public int saveCaterer(Caterer caterer) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session sesh = HibernateUtil.getSession();
+		int result = (int) sesh.save(caterer);
+		return result;
 	}
 
 	@Override
 	public int saveReview(Review review) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session sesh = HibernateUtil.getSession();
+		int result = (int) sesh.save(review);
+		return result;
 	}
 
 	@Override
 	public int saveCuisine(Cuisine cuisine) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session sesh = HibernateUtil.getSession();
+		int result = (int) sesh.save(cuisine);
+		return result;
 	}
 
 	@Override
@@ -128,7 +130,7 @@ public class DaoImpl implements Dao {
 
 		for (States state : States.values()) {
 			State newState = new State();
-			newState.setState_Name(state.toString());
+			newState.setState_Name(state);
 			newState.setState_Id(stateCounter);
 			stateCounter++;
 			System.out.println(newState.getState_Name());
@@ -157,43 +159,65 @@ public class DaoImpl implements Dao {
 */
 	@Override
 	public int saveStatusType(StatusType statusType) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session sesh = HibernateUtil.getSession();
+		int result = (int) sesh.save(statusType);
+		return result;
 	}
 
 	@Override
 	public int saveUserType(UserType userType) {
-		// TODO Auto-generated method stub
-		return 0;
+		Session sesh = HibernateUtil.getSession();
+		int result = (int) sesh.save(userType);
+		return result;
 	}
 
 	@Override
 	public void persistReview(Review review) {
-		// TODO Auto-generated method stub
-
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.persist(review);
+		tx.commit();
+		sesh.close();
 	}
 
 	@Override
 	public void persistCaterer(Caterer caterer) {
-		// TODO Auto-generated method stub
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.save(caterer);
+		sesh.persist(caterer);
+		tx.commit();
+		sesh.close();
 
 	}
 
 	@Override
 	public void persistCuisine(Cuisine cuisine) {
-		// TODO Auto-generated method stub
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.persist(cuisine);
+		tx.commit();
+		sesh.close();
 
 	}
 
 	@Override
 	public void persistStatusType(StatusType statusType) {
-		// TODO Auto-generated method stub
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.persist(statusType);
+		tx.commit();
+		sesh.close();
 
 	}
 
 	@Override
 	public void persistUserType(UserType userType) {
-		// TODO Auto-generated method stub
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.persist(userType);
+		tx.commit();
+		sesh.close();
 
 	}
 
