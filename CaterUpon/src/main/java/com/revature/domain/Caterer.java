@@ -19,7 +19,7 @@ public class Caterer {
 	@Column(name = "CATERER_DESCRIPTION")
 	protected String caterer_Description;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "CATERER_STATE")
 	protected State caterer_State;
 	

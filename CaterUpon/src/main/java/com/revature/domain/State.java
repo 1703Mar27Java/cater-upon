@@ -13,6 +13,7 @@ public class State {
 	@Column(name = "STATE_ID")
 	protected int state_Id;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "STATE_NAME")
 	protected States state_Name;
 
