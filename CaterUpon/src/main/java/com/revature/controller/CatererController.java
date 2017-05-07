@@ -26,6 +26,10 @@ public class CatererController {
 		return "/error/404";
 	}
 	
+	@RequestMapping(value = "/userSearch")
+    public String userSearch() {
+        return "userSearch";
+    }
 	
 	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
 	public @ResponseBody String resetPw(@RequestParam String pw, @RequestParam String u) {
