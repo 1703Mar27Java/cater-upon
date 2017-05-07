@@ -8,7 +8,7 @@ public class Review {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviewSeq")
-	@SequenceGenerator(allocationSize = 1, name = "userSeq", sequenceName = "REVIEW_SEQ")
+	@SequenceGenerator(allocationSize = 1, name = "reviewSeq", sequenceName = "REVIEW_SEQ")
 	@Column(name = "REVIEW_ID")
 	protected int review_Id;
 	

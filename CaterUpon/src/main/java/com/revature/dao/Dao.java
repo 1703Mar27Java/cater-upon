@@ -5,6 +5,8 @@ import com.revature.domain.*;
 
 public interface Dao {
 
+	public User getUserByUsername(String userName);
+	
 	// Returns by Id
 	public User getUserById(int id);
 	public Order getOrderById(int id);

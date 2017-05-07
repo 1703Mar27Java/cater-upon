@@ -19,7 +19,8 @@ public class Caterer {
 	@Column(name = "CATERER_DESCRIPTION")
 	protected String caterer_Description;
 	
-	@Column(name = "CATERER_STATE")
+	@OneToOne
+	@JoinColumn(name = "CATERER_STATE")
 	protected State caterer_State;
 	
 	@Column(name = "CATERER_CITY")
@@ -105,14 +106,6 @@ public class Caterer {
 	}
 
 	@Override
-	public String toString() {
-		return "Caterer [caterer_Id=" + caterer_Id + ", caterer_SearchRadius=" + caterer_SearchRadius
-				+ ", caterer_Description=" + caterer_Description + ", caterer_State=" + caterer_State
-				+ ", caterer_City=" + caterer_City + ", caterer_Zipcode=" + caterer_Zipcode + ", caterer_User="
-				+ caterer_User + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -149,13 +142,24 @@ public class Caterer {
 			return false;
 		if (caterer_SearchRadius != other.caterer_SearchRadius)
 			return false;
-		if (caterer_State != other.caterer_State)
+		if (caterer_State == null) {
+			if (other.caterer_State != null)
+				return false;
+		} else if (!caterer_State.equals(other.caterer_State))
 			return false;
 		if (caterer_User != other.caterer_User)
 			return false;
 		if (caterer_Zipcode != other.caterer_Zipcode)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Caterer [caterer_Id=" + caterer_Id + ", caterer_SearchRadius=" + caterer_SearchRadius
+				+ ", caterer_Description=" + caterer_Description + ", caterer_State=" + caterer_State
+				+ ", caterer_City=" + caterer_City + ", caterer_Zipcode=" + caterer_Zipcode + ", caterer_User="
+				+ caterer_User + "]";
 	}
 
 	

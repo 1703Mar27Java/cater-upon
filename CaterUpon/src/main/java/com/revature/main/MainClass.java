@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.dao.DaoImpl;
+import com.revature.domain.Caterer;
 import com.revature.domain.Order;
 import com.revature.domain.State;
+import com.revature.domain.StatusType;
 import com.revature.domain.User;
+import com.revature.domain.UserType;
 import com.revature.enums.States;
+import com.revature.enums.StatusTypes;
+import com.revature.enums.UserTypes;
 
 public class MainClass {
 
@@ -20,9 +25,31 @@ public class MainClass {
 		System.out.println(user.toString());
 		
 		DaoImpl dao = new DaoImpl();
-		user.setUser_Username("user");
-		user.setUser_Password("pass");
 		
-		System.out.println(dao.login(user));
+		User newuser = new User();
+		UserType ut = new UserType();
+		
+		ut.setUserType_Id(1);
+		ut.setUserType_Type(UserTypes.Customer);
+		
+		newuser.setUser_Username("shit");
+		newuser.setUser_Password("PassWord");
+		newuser.setUser_UserType(ut);
+		
+//		StatusType st = new StatusType();
+//		st.setStatus_Id(2);
+//		st.setStatus_Type(StatusTypes.Approved);
+//		order.setOrder_Status(st);
+		Caterer caterer = new Caterer();
+		State state = new State();
+		
+		state.setState_Name(States.Alaska);
+		caterer.setCaterer_State(state);
+		
+		dao.saveCaterer(caterer);
+		
+		//dao.persistOrder(order);
+		//dao.persistUser(newuser);
+		//dao.saveAllStates();
 	}
 }

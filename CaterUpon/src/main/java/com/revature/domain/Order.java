@@ -25,8 +25,9 @@ public class Order {
 	protected int order_Caterer;
 	
 	//	Order_Status
-	@Column(name = "ORDER_STATUS")
-	protected int order_Status;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ORDER_STATUS")
+	protected StatusType order_Status;
 	
 	//	Order_Amount
 	@Column(name = "ORDER_AMOUNT")
@@ -45,8 +46,9 @@ public class Order {
 	protected String order_Comment;
 	
 	//	Order_State
-	@Column(name = "ORDER_STATE")
-	protected int order_State;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ORDER_STATE")
+	protected State order_State;
 	
 	//	Order_City
 	@Column(name = "ORDER_CITY")
@@ -60,8 +62,8 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(int order_Id, int order_Customer, int order_Caterer, int order_Status, int order_Amount,
-			Date order_Date, int order_NumOfAttendees, String order_Comment, int order_State, String order_City,
+	public Order(int order_Id, int order_Customer, int order_Caterer, StatusType order_Status, int order_Amount,
+			Date order_Date, int order_NumOfAttendees, String order_Comment, State order_State, String order_City,
 			int order_Zipcode) {
 		super();
 		this.order_Id = order_Id;
@@ -101,11 +103,11 @@ public class Order {
 		this.order_Caterer = order_Caterer;
 	}
 
-	public int getOrder_Status() {
+	public StatusType getOrder_Status() {
 		return order_Status;
 	}
 
-	public void setOrder_Status(int order_Status) {
+	public void setOrder_Status(StatusType order_Status) {
 		this.order_Status = order_Status;
 	}
 
@@ -141,11 +143,11 @@ public class Order {
 		this.order_Comment = order_Comment;
 	}
 
-	public int getOrder_State() {
+	public State getOrder_State() {
 		return order_State;
 	}
 
-	public void setOrder_State(int order_State) {
+	public void setOrder_State(State order_State) {
 		this.order_State = order_State;
 	}
 
@@ -166,15 +168,6 @@ public class Order {
 	}
 
 	@Override
-	public String toString() {
-		return "Order [order_Id=" + order_Id + ", order_Customer=" + order_Customer + ", order_Caterer=" + order_Caterer
-				+ ", order_Status=" + order_Status + ", order_Amount=" + order_Amount + ", order_Date=" + order_Date
-				+ ", order_NumOfAttendees=" + order_NumOfAttendees + ", order_Comment=" + order_Comment
-				+ ", order_State=" + order_State + ", order_City=" + order_City + ", order_Zipcode=" + order_Zipcode
-				+ "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -186,8 +179,8 @@ public class Order {
 		result = prime * result + ((order_Date == null) ? 0 : order_Date.hashCode());
 		result = prime * result + order_Id;
 		result = prime * result + order_NumOfAttendees;
-		result = prime * result + order_State;
-		result = prime * result + order_Status;
+		result = prime * result + ((order_State == null) ? 0 : order_State.hashCode());
+		result = prime * result + ((order_Status == null) ? 0 : order_Status.hashCode());
 		result = prime * result + order_Zipcode;
 		return result;
 	}
@@ -226,13 +219,28 @@ public class Order {
 			return false;
 		if (order_NumOfAttendees != other.order_NumOfAttendees)
 			return false;
-		if (order_State != other.order_State)
+		if (order_State == null) {
+			if (other.order_State != null)
+				return false;
+		} else if (!order_State.equals(other.order_State))
 			return false;
-		if (order_Status != other.order_Status)
+		if (order_Status == null) {
+			if (other.order_Status != null)
+				return false;
+		} else if (!order_Status.equals(other.order_Status))
 			return false;
 		if (order_Zipcode != other.order_Zipcode)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [order_Id=" + order_Id + ", order_Customer=" + order_Customer + ", order_Caterer=" + order_Caterer
+				+ ", order_Status=" + order_Status + ", order_Amount=" + order_Amount + ", order_Date=" + order_Date
+				+ ", order_NumOfAttendees=" + order_NumOfAttendees + ", order_Comment=" + order_Comment
+				+ ", order_State=" + order_State + ", order_City=" + order_City + ", order_Zipcode=" + order_Zipcode
+				+ "]";
 	}
 
 	

@@ -2,6 +2,8 @@ package com.revature.domain;
 
 import javax.persistence.*;
 
+import com.revature.enums.States;
+
 @Entity
 @Table(name = "CU_STATES")
 public class State {
@@ -12,17 +14,17 @@ public class State {
 	protected int state_Id;
 	
 	@Column(name = "STATE_NAME")
-	protected String state_Name;
+	protected States state_Name;
+
+	public State(int state_Id, States state_Name) {
+		super();
+		this.state_Id = state_Id;
+		this.state_Name = state_Name;
+	}
 
 	public State() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public State(int state_Id, String state_Name) {
-		super();
-		this.state_Id = state_Id;
-		this.state_Name = state_Name;
 	}
 
 	public int getState_Id() {
@@ -33,17 +35,12 @@ public class State {
 		this.state_Id = state_Id;
 	}
 
-	public String getState_Name() {
+	public States getState_Name() {
 		return state_Name;
 	}
 
-	public void setState_Name(String state_Name) {
+	public void setState_Name(States state_Name) {
 		this.state_Name = state_Name;
-	}
-
-	@Override
-	public String toString() {
-		return "State [state_Id=" + state_Id + ", state_Name=" + state_Name + "]";
 	}
 
 	@Override
@@ -66,15 +63,16 @@ public class State {
 		State other = (State) obj;
 		if (state_Id != other.state_Id)
 			return false;
-		if (state_Name == null) {
-			if (other.state_Name != null)
-				return false;
-		} else if (!state_Name.equals(other.state_Name))
+		if (state_Name != other.state_Name)
 			return false;
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "State [state_Id=" + state_Id + ", state_Name=" + state_Name + "]";
+	}
+
 	
 }
 

@@ -32,8 +32,12 @@ public class CatererController {
 		if (p != null) {
 			DaoImpl dao = new DaoImpl();
 			if (dao.login(p)) {
+				User u = new User();
+				u=dao.getUserByUsername(p.getUser_Username());
+				System.out.println(u);
 				m.addAttribute("user_Username", p.getUser_Username());
 				m.addAttribute("user_Password", p.getUser_Password());
+				m.addAttribute("userBean", u);
 				return "caterer";
 			}
 		}
