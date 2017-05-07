@@ -245,11 +245,8 @@ public class DaoImpl implements Dao {
 		if(!users.isEmpty())
 		{
 			user = users.get(0);
-			
 			return true;
 		}
-		
-		
 		return false;
 	}
 

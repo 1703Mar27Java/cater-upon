@@ -69,30 +69,27 @@
 		<h2>View or Update Your User Info.</h2>
 
 		<div id="divPendingReqs">
-			<table width=50%>
-				<tr>
-					<td>Email:</td>
-					<td></td>
-					<td>${userBean.getUser_Email()}</td>
-					<td><button id="btnShowUpdateFormEmail" type="button"
-							class="btn btn-xs btn-warning">Update Email</button></td>
-				</tr>
 
-				<tr>
-					<td><button id="btnShowPassForm" type="button"
-							class="btn btn-xs btn-warning">Update Password</button> <input
-						id="inTxtPw1" type="password" size="15"
-						placeholder="Enter your password" /></td>
-					<td></td>
-					<td><input id="inTxtPw2" type="password" size="15"
-						placeholder="Confirm your password" /></td>
-					<td><button id="btnUpdatePass" type="button"
-							class="btn btn-xs btn-warning">Update Password</button></td>
-				</tr>
-			</table>
+			Email: ${userBean.getUser_Email()} 
+			<input id="inTxtEm" type="text" size="15" placeholder="Enter Your New Email" />
+			<button id="btnShowUpdateFormEmail" type="button"
+				class="btn btn-xs btn-warning">Update Email</button>
+			<button id="btnSubmitEmail" type="button"
+				class="btn btn-xs btn-warning">Submit Email</button>
+			<br>
+			<button id="btnShowPassForm" type="button"
+				class="btn btn-xs btn-warning">Update Password</button>
+			<input id="inTxtPw1" type="password" size="10"
+				placeholder="Enter your password" /> 
+			<input id="inTxtPw2" type="password" size="10" 
+				placeholder="Confirm your password" />
+			<button id="btnUpdatePass" type="button"
+				class="btn btn-xs btn-warning">Update Password</button>
+
 		</div>
 
-
+		<!-- Info bar -->
+		<div id="alertTxt" class="alert alert-warning" role="alert"></div>
 
 	</div>
 </body>
@@ -102,6 +99,48 @@
 		$("#inTxtPw1").hide();
 		$("#inTxtPw2").hide();
 		$("#btnUpdatePass").hide();
+		$("#alertTxt").hide();
+		$("#inTxtEm").hide();
+		$("#btnSubmitEmail").hide();
+	});
+	$("#btnShowUpdateFormEmail").click(function() {
+		//show email update form
+		$("#inTxtEm").show();
+		$("#btnSubmitEmail").show();
+		$("#btnShowUpdateFormEmail").hide();
+	});
+	$("#btnSubmitEmail").click(function() {
+		//hide email update form
+		$("#inTxtEm").hide();
+		$("#btnSubmitEmail").hide();
+		$("#btnShowUpdateFormEmail").show();
+		
+		//perform ajax to update email
+		var em=$("#inTxtEm").val();
+		var u = "${userBean.getUser_Username()}";
+		var emData= {
+				"em" : em,
+				"u"  : u
+		}
+		$.ajax({
+			type : "POST",
+			/*contentType : 'application/json; charset=utf-8',*///use Default contentType
+			dataType : 'json',
+			url : "setEmail",
+			data : emData, // Note it is important without stringifying
+			success : function(data) {
+				console.log("SUCCESS: ", data);
+				$("#alertTxt").show();
+				$("#alertTxt").text("Successfully updated email!");
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+
+			},
+			done : function(e) {
+				console.log("DONE");
+			}
+		});
 	});
 	$("#btnShowPassForm").click(function() {
 		//show pw reset form
@@ -116,27 +155,36 @@
 		$("#inTxtPw2").hide();
 		$("#btnUpdatePass").hide();
 		$("#btnShowPassForm").show();
+		
 		//perform ajax to update pw
-
 		var pw1 = $("#inTxtPw1").val();
 		var pw2 = $("#inTxtPw2").val();
-		var u="${userBean.getUser_Username()}";
-		if (pw1 == pw2) {
+		var u = "${userBean.getUser_Username()}";
+		if (pw1 != pw2) {
+			$("#alertTxt").show();
+			$("#alertTxt").text("Passwords must match!!");
+		} 
+		else if(pw1.length<5) {
+			$("#alertTxt").show();
+			$("#alertTxt").text("Password must be more than 5 characters long!!");
+		} 
+		else {
 			var pwData = {
-				"pw" : pw1, 
-				"u"  : u
+				"pw" : pw1,
+				"u" : u
 			}
 			console.log(pwData);
 
 			$.ajax({
-				type: "POST",
-			    /*contentType : 'application/json; charset=utf-8',*/ //use Default contentType
-			    dataType : 'json',
-			    url: "resetPass",
-			    data: pwData, // Note it is important without stringifying
+				type : "POST",
+				/*contentType : 'application/json; charset=utf-8',*///use Default contentType
+				dataType : 'json',
+				url : "resetPass",
+				data : pwData, // Note it is important without stringifying
 				success : function(data) {
 					console.log("SUCCESS: ", data);
-
+					$("#alertTxt").show();
+					$("#alertTxt").text("Successfully updated password!");
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);
