@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.*;
 import com.revature.util.dao.HibernateUtil;
+import com.revature.util.dao.Util;
 import com.revature.domain.*;
 import com.revature.enums.Cuisines;
 import com.revature.enums.States;
@@ -259,6 +260,46 @@ public class DaoImpl implements Dao {
 		sesh.update(user);
 		tx.commit();
 		
+	}
+
+
+	@Override
+	public List<Caterer> findAllCatererByCity(String City) {
+		List<Caterer> availableCaterer = new ArrayList<Caterer>();
+		Session sesh = HibernateUtil.getSession();
+		
+		List<Caterer> caterers = sesh.createQuery("from Caterer").list();
+		Util util = new Util();
+		
+		for(int i = 0; i < caterers.size(); i++)
+		{
+			double distance = util.DistanceBetweenTwoCity(City, caterers.get(i).getCaterer_City().toString());
+			System.out.println(distance);
+			if(caterers.get(i).getCaterer_SearchRadius() > distance)
+				availableCaterer.add(caterers.get(i));
+		}
+		
+		return availableCaterer;
+	}
+
+	@Override
+	public List<Caterer> findAllCatererByZip(int Zipcode) {
+		
+		List<Caterer> availableCaterer = new ArrayList<Caterer>();
+		Session sesh = HibernateUtil.getSession();
+		
+		List<Caterer> caterers = sesh.createQuery("from Caterer").list();
+		Util util = new Util();
+		
+		for(int i = 0; i < caterers.size(); i++)
+		{
+			double distance = util.DistanceBetweenTwoZipcodes(Zipcode, caterers.get(i).getCaterer_Zipcode());
+			//System.out.println(distance);
+			if(caterers.get(i).getCaterer_SearchRadius() > distance)
+				availableCaterer.add(caterers.get(i));
+		}
+		
+		return availableCaterer;
 	}
 
 	
