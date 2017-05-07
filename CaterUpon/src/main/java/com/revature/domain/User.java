@@ -32,8 +32,8 @@ public class User {
 
 	// Additional User Variable
 	// User_UserType
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_USERTYPE")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USERTYPE_TYPE")
 	protected UserType user_UserType;
 
 	// User_BankAccount
@@ -45,21 +45,13 @@ public class User {
 		super();
 	}
 
-	public User(int user_Id, String user_Username, String user_Password, String user_Email, int google_Id,
-			String google_Username, State user_State, String user_City, int user_SearchRadius, int user_ZipCode,
-			UserType user_UserType) {
-		this();
-		this.user_Id = user_Id;
-		this.user_Username = user_Username;
-		this.user_Password = user_Password;
-		this.user_Email = user_Email;
-		this.google_Id = google_Id;
-		this.google_Username = google_Username;
-		this.user_UserType = user_UserType;
-	}
 	
 	
 	
+	
+
+
+
 	public int getUser_Id() {
 		return user_Id;
 	}
@@ -108,13 +100,67 @@ public class User {
 		this.google_Username = google_Username;
 	}
 
+	
+
+	
+	
+
+
+	@Override
+	public String toString() {
+		return "User [user_Id=" + user_Id + ", user_Username=" + user_Username + ", user_Password=" + user_Password
+				+ ", user_Email=" + user_Email + ", google_Id=" + google_Id + ", google_Username=" + google_Username
+				+ ", user_UserType=" + user_UserType.toString() + ", user_BankBalance=" + user_BankBalance + "]";
+	}
+
+
+
+
+
+
+
+
+	public User(int user_Id, String user_Username, String user_Password, String user_Email, int google_Id,
+			String google_Username, UserType user_UserType, int user_BankBalance) {
+		super();
+		this.user_Id = user_Id;
+		this.user_Username = user_Username;
+		this.user_Password = user_Password;
+		this.user_Email = user_Email;
+		this.google_Id = google_Id;
+		this.google_Username = google_Username;
+		this.user_UserType = user_UserType;
+		this.user_BankBalance = user_BankBalance;
+	}
+
+
+
+
+
+
+
+
 	public UserType getUser_UserType() {
 		return user_UserType;
 	}
 
+
+
+
+
+
+
+
 	public void setUser_UserType(UserType user_UserType) {
 		this.user_UserType = user_UserType;
 	}
+
+
+
+
+
+
+
 
 	public int getUser_BankBalance() {
 		return user_BankBalance;
@@ -122,14 +168,6 @@ public class User {
 
 	public void setUser_BankBalance(int user_BankBalance) {
 		this.user_BankBalance = user_BankBalance;
-	}
-
-	// ToString
-	@Override
-	public String toString() {
-		return "User [user_Id=" + user_Id + ", user_Username=" + user_Username + ", user_Password=" + user_Password
-				+ ", user_Email=" + user_Email + ", google_Id=" + google_Id + ", google_Username=" + google_Username
-				+ ", user_UserType=" + user_UserType + ", user_BankBalance=" + user_BankBalance + "]";
 	}
 
 	

@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.revature.dao.DaoImpl;
 import com.revature.domain.User;
+import com.revature.domain.UserType;
+import com.revature.enums.UserTypes;
 
 @Controller
 public class CatererController {
@@ -52,8 +54,9 @@ public class CatererController {
 				// User types from DB to reroute to correct page
 				// 1: Customer
 				// 2: Caterer
-				int t = u.getUser_UserType();
-				if (t == 1) {
+				UserType t = u.getUser_UserType();
+				
+				if (t.getUserType_Type()==UserTypes.Customer) {
 					return "user";
 				} else
 					return "caterer";

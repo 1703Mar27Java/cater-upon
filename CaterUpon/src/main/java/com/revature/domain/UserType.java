@@ -7,13 +7,22 @@ import com.revature.enums.UserTypes;
 @Entity
 @Table(name = "CU_USERTYPES")
 public class UserType {
-
+	//TODO
+	/*
+	 * org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.revature.domain.User.user_UserType references an unknown entity: int
+	 * org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.revature.domain.User.user_UserType references an unknown entity: int
+	 * 
+	 */
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userTypeSeq")
 	@SequenceGenerator(allocationSize = 1, name = "userTypeSeq", sequenceName = "USERTYPES_SEQ")
 	@Column(name = "USERTYPE_ID")
 	protected int userType_Id;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "USERTYPE_TYPE")
 	protected UserTypes userType_Type;
 
@@ -73,6 +82,8 @@ public class UserType {
 	public String toString() {
 		return "UserType [userType_Id=" + userType_Id + ", userType_Type=" + userType_Type + "]";
 	}
+
+	
 	
 	
 }

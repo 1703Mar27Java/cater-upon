@@ -23,13 +23,10 @@
 			<mapping class="com.revature.domain.Caterer" />
 			
 			<mapping class="com.revature.domain.State" />
-<<<<<<< HEAD
-			<mapping class="com.reavture.domain.Cuisine" />
+			<mapping class="com.revature.domain.Cuisine" />
 			<mapping class="com.revature.domain.UserType" />
-			<mapping class="com.reavture.domain.StatusType"/>
+			<mapping class="com.revature.domain.StatusType"/>
 			<!-- <mapping class="one.to.many.Order" /> -->
-=======
-			
->>>>>>> 52d1e6d69b24696a3e5b152530a01a24988156c8
+
 		</session-factory>
 	</hibernate-configuration>
