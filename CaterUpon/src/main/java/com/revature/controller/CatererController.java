@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.revature.dao.DaoImpl;
@@ -17,6 +18,14 @@ public class CatererController {
 	public String error404() {
 		System.out.println("custom error handler");
 		return "/error/404";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
+	public String resetPw() {
+		System.out.println("pass resetting");
+		return "successfully returned";
+		
 	}
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
@@ -31,14 +40,24 @@ public class CatererController {
 	public String login(@ModelAttribute("command") User p, Model m) {
 		if (p != null) {
 			DaoImpl dao = new DaoImpl();
+			// login test
+			// if we fail the login we go back to the login page
+			// else we check what page to reroute to based on user in DB
 			if (dao.login(p)) {
 				User u = new User();
-				u=dao.getUserByUsername(p.getUser_Username());
-				System.out.println(u);
-				m.addAttribute("user_Username", p.getUser_Username());
-				m.addAttribute("user_Password", p.getUser_Password());
+				u = dao.getUserByUsername(p.getUser_Username());
+				System.out.println("Logging in with user: " + u);
 				m.addAttribute("userBean", u);
-				return "caterer";
+
+				// User types from DB to reroute to correct page
+				// 1: Customer
+				// 2: Caterer
+				int t = u.getUser_UserType();
+				if (t == 1) {
+					return "user";
+				} else
+					return "caterer";
+
 			}
 		}
 		return "index";
