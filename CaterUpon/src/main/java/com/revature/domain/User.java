@@ -3,7 +3,7 @@ package com.revature.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CU_USERS", uniqueConstraints=@UniqueConstraint(columnNames = {"USER_USERNAME"}))
+@Table(name = "CU_USERS", uniqueConstraints = @UniqueConstraint(columnNames = { "USER_USERNAME" }))
 public class User {
 
 	@Id
@@ -32,7 +32,7 @@ public class User {
 
 	// Additional User Variable
 	// User_UserType
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USERTYPE_TYPE")
 	protected UserType user_UserType;
 
@@ -44,13 +44,6 @@ public class User {
 	public User() {
 		super();
 	}
-
-	
-	
-	
-	
-
-
 
 	public int getUser_Id() {
 		return user_Id;
@@ -100,25 +93,12 @@ public class User {
 		this.google_Username = google_Username;
 	}
 
-	
-
-	
-	
-
-
 	@Override
 	public String toString() {
 		return "User [user_Id=" + user_Id + ", user_Username=" + user_Username + ", user_Password=" + user_Password
 				+ ", user_Email=" + user_Email + ", google_Id=" + google_Id + ", google_Username=" + google_Username
 				+ ", user_UserType=" + user_UserType.toString() + ", user_BankBalance=" + user_BankBalance + "]";
 	}
-
-
-
-
-
-
-
 
 	public User(int user_Id, String user_Username, String user_Password, String user_Email, int google_Id,
 			String google_Username, UserType user_UserType, int user_BankBalance) {
@@ -133,34 +113,13 @@ public class User {
 		this.user_BankBalance = user_BankBalance;
 	}
 
-
-
-
-
-
-
-
 	public UserType getUser_UserType() {
 		return user_UserType;
 	}
 
-
-
-
-
-
-
-
 	public void setUser_UserType(UserType user_UserType) {
 		this.user_UserType = user_UserType;
 	}
-
-
-
-
-
-
-
 
 	public int getUser_BankBalance() {
 		return user_BankBalance;
@@ -170,5 +129,4 @@ public class User {
 		this.user_BankBalance = user_BankBalance;
 	}
 
-	
 }

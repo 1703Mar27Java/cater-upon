@@ -36,4 +36,7 @@ public interface Dao {
 	
 	// Functionality 
 	public boolean login(User user);
+	
+	//Update
+	public void updateUser(User user);
 }

@@ -1,10 +1,14 @@
 package com.revature.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,10 +26,16 @@ public class CatererController {
 		return "/error/404";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-	public String resetPw() {
+	public @ResponseBody String resetPw(@RequestParam String pw, @RequestParam String u) {
 		System.out.println("pass resetting");
+		DaoImpl dao = new DaoImpl();
+		User newU = new User();
+		newU = dao.getUserByUsername(u);
+		newU.setUser_Password(pw);
+		dao.updateUser(newU);
+		System.out.println(dao.getUserByUsername(u));
 		return "successfully returned";
 		
 	}
@@ -59,7 +69,7 @@ public class CatererController {
 				if (t.getUserType_Type()==UserTypes.Customer) {
 					return "user";
 				} else
-					return "caterer";
+					return "aterer";
 
 			}
 		}

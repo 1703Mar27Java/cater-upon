@@ -69,7 +69,7 @@
 		<h2>View or Update Your User Info.</h2>
 
 		<div id="divPendingReqs">
-			<table width=50% >
+			<table width=50%>
 				<tr>
 					<td>Email:</td>
 					<td></td>
@@ -78,12 +78,14 @@
 							class="btn btn-xs btn-warning">Update Email</button></td>
 				</tr>
 
-				<tr> 
+				<tr>
 					<td><button id="btnShowPassForm" type="button"
-							class="btn btn-xs btn-warning">Update Password</button> 
-						<input id="inTxtPw1" type="password" size="15" placeholder="Enter your password"/></td>
+							class="btn btn-xs btn-warning">Update Password</button> <input
+						id="inTxtPw1" type="password" size="15"
+						placeholder="Enter your password" /></td>
 					<td></td>
-					<td><input id="inTxtPw2" type="password" size="15" placeholder="Confirm your password"/></td>
+					<td><input id="inTxtPw2" type="password" size="15"
+						placeholder="Confirm your password" /></td>
 					<td><button id="btnUpdatePass" type="button"
 							class="btn btn-xs btn-warning">Update Password</button></td>
 				</tr>
@@ -115,35 +117,37 @@
 		$("#btnUpdatePass").hide();
 		$("#btnShowPassForm").show();
 		//perform ajax to update pw
-		
-		var data = {}
-		data["pw1"] = $("#inTxtPw1").val();
-		data["pw2"] = $("#inTxtPw2").val();
-		
-		console.log(data);
-		
-		
-		$.ajax({
-			type : "POST",
-			contentType : "application/json",
-			url : "resetPass",
-			data : JSON.stringify(data),
-			dataType : 'json',
-			timeout : 100000,
-			success : function(data) {
-				console.log("SUCCESS: ", data);
-				
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-				
-			},
-			done : function(e) {
-				console.log("DONE");
+
+		var pw1 = $("#inTxtPw1").val();
+		var pw2 = $("#inTxtPw2").val();
+		var u="${userBean.getUser_Username()}";
+		if (pw1 == pw2) {
+			var pwData = {
+				"pw" : pw1, 
+				"u"  : u
 			}
-		});
-		
-		
+			console.log(pwData);
+
+			$.ajax({
+				type: "POST",
+			    /*contentType : 'application/json; charset=utf-8',*/ //use Default contentType
+			    dataType : 'json',
+			    url: "resetPass",
+			    data: pwData, // Note it is important without stringifying
+				success : function(data) {
+					console.log("SUCCESS: ", data);
+
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+
 	});
 </script>
 </html>

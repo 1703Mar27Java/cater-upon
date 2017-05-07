@@ -3,12 +3,14 @@ package com.revature.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.*;
 import com.revature.util.dao.HibernateUtil;
 import com.revature.domain.*;
 import com.revature.enums.Cuisines;
 import com.revature.enums.States;
-
+@Transactional
 public class DaoImpl implements Dao {	
 	List<User> AllUsers;
 
@@ -26,7 +28,9 @@ public class DaoImpl implements Dao {
 		if (!users.isEmpty()) {
 			user = users.get(0);
 		}
+		
 		return user;
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -39,6 +43,7 @@ public class DaoImpl implements Dao {
 		if (!users.isEmpty()) {
 			user = users.get(0);
 		}
+		
 		return user;
 	}
 
@@ -52,6 +57,7 @@ public class DaoImpl implements Dao {
 		if (!orders.isEmpty()) {
 			order = orders.get(0);
 		}
+		
 		return order;
 	}
 
@@ -59,6 +65,7 @@ public class DaoImpl implements Dao {
 	public int saveUser(User user) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(user);
+		
 		return result;
 	}
 
@@ -66,6 +73,7 @@ public class DaoImpl implements Dao {
 	public int saveOrder(Order order) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(order);
+		
 		return result;
 	}
 
@@ -77,7 +85,7 @@ public class DaoImpl implements Dao {
 		tx.commit();
 		sesh.close();
 	}
-
+	
 	@Override
 	public void persistOrder(Order order) {
 		Session sesh = HibernateUtil.getSession();
@@ -99,6 +107,7 @@ public class DaoImpl implements Dao {
 	public int saveCaterer(Caterer caterer) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(caterer);
+		sesh.close();
 		return result;
 	}
 
@@ -106,6 +115,7 @@ public class DaoImpl implements Dao {
 	public int saveReview(Review review) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(review);
+		sesh.close();
 		return result;
 	}
 
@@ -113,6 +123,7 @@ public class DaoImpl implements Dao {
 	public int saveCuisine(Cuisine cuisine) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(cuisine);
+		sesh.close();
 		return result;
 	}
 
@@ -120,6 +131,7 @@ public class DaoImpl implements Dao {
 	public int saveState(State state) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(state);
+		sesh.close();
 		return result;
 	}
 
@@ -161,6 +173,7 @@ public class DaoImpl implements Dao {
 	public int saveStatusType(StatusType statusType) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(statusType);
+		
 		return result;
 	}
 
@@ -231,11 +244,21 @@ public class DaoImpl implements Dao {
 		if(!users.isEmpty())
 		{
 			user = users.get(0);
+			
 			return true;
 		}
 		
-		sesh.close();
+		
 		return false;
+	}
+
+	@Override
+	public void updateUser(User user) {
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.update(user);
+		tx.commit();
+		
 	}
 
 	
