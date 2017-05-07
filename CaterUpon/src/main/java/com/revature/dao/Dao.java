@@ -36,4 +36,6 @@ public interface Dao {
 	
 	// Functionality 
 	public boolean login(User user);
+	public List<Caterer> findAllCatererByCity(String City);
+	public List<Caterer> findAllCatererByZip(int Zipcode);
 }

@@ -25,7 +25,7 @@ public class MainClass {
 //		
 //		System.out.println(user.toString());
 //		
-//		DaoImpl dao = new DaoImpl();
+		DaoImpl dao = new DaoImpl();
 //		
 //		User newuser = new User();
 //		UserType ut = new UserType();
@@ -53,8 +53,11 @@ public class MainClass {
 //		//dao.persistUser(newuser);
 //		//dao.saveAllStates();
 		
-		Util util = new Util();
-		System.out.println(util.DistanceBetweenTwoZipcodes(34205, 32792));
-		System.out.println(util.DistanceBetweenTwoCity("Bradenton", "Orlando"));
+//		Util util = new Util();
+//		System.out.println(util.DistanceBetweenTwoZipcodes(34205, 32792));
+//		System.out.println(util.DistanceBetweenTwoCity("Bradenton", "Orlando"));
+//		
+		
+		System.out.println(dao.findAllCatererByZip(34212));
 	}
 }
