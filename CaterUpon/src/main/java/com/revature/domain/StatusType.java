@@ -14,6 +14,7 @@ public class StatusType {
 	@Column(name = "STATUS_ID")
 	protected int status_Id;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "STATUS_TYPE")
 	protected StatusTypes status_Type;
 

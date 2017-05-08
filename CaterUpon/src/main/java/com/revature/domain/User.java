@@ -85,6 +85,64 @@ public class User {
 		this.google_Id = google_Id;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + google_Id;
+		result = prime * result + ((google_Username == null) ? 0 : google_Username.hashCode());
+		result = prime * result + user_BankBalance;
+		result = prime * result + ((user_Email == null) ? 0 : user_Email.hashCode());
+		result = prime * result + user_Id;
+		result = prime * result + ((user_Password == null) ? 0 : user_Password.hashCode());
+		result = prime * result + ((user_UserType == null) ? 0 : user_UserType.hashCode());
+		result = prime * result + ((user_Username == null) ? 0 : user_Username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (google_Id != other.google_Id)
+			return false;
+		if (google_Username == null) {
+			if (other.google_Username != null)
+				return false;
+		} else if (!google_Username.equals(other.google_Username))
+			return false;
+		if (user_BankBalance != other.user_BankBalance)
+			return false;
+		if (user_Email == null) {
+			if (other.user_Email != null)
+				return false;
+		} else if (!user_Email.equals(other.user_Email))
+			return false;
+		if (user_Id != other.user_Id)
+			return false;
+		if (user_Password == null) {
+			if (other.user_Password != null)
+				return false;
+		} else if (!user_Password.equals(other.user_Password))
+			return false;
+		if (user_UserType == null) {
+			if (other.user_UserType != null)
+				return false;
+		} else if (!user_UserType.equals(other.user_UserType))
+			return false;
+		if (user_Username == null) {
+			if (other.user_Username != null)
+				return false;
+		} else if (!user_Username.equals(other.user_Username))
+			return false;
+		return true;
+	}
+
 	public String getGoogle_Username() {
 		return google_Username;
 	}

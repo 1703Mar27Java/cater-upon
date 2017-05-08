@@ -17,15 +17,17 @@ public class Order {
 	protected int order_Id;
 	
 	//	Order_Customer
-	@Column(name = "ORDER_CUSTOMER")
-	protected int order_Customer;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ORDER_CUSTOMER")
+	protected User order_Customer;
 	
 	//	Order_Caterer
-	@Column(name = "ORDER_CATERER")
-	protected int order_Caterer;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ORDER_CATERER")
+	protected Caterer order_Caterer;
 	
 	//	Order_Status
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORDER_STATUS")
 	protected StatusType order_Status;
 	
@@ -62,22 +64,7 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(int order_Id, int order_Customer, int order_Caterer, StatusType order_Status, int order_Amount,
-			Date order_Date, int order_NumOfAttendees, String order_Comment, State order_State, String order_City,
-			int order_Zipcode) {
-		super();
-		this.order_Id = order_Id;
-		this.order_Customer = order_Customer;
-		this.order_Caterer = order_Caterer;
-		this.order_Status = order_Status;
-		this.order_Amount = order_Amount;
-		this.order_Date = order_Date;
-		this.order_NumOfAttendees = order_NumOfAttendees;
-		this.order_Comment = order_Comment;
-		this.order_State = order_State;
-		this.order_City = order_City;
-		this.order_Zipcode = order_Zipcode;
-	}
+	
 
 	public int getOrder_Id() {
 		return order_Id;
@@ -87,22 +74,7 @@ public class Order {
 		this.order_Id = order_Id;
 	}
 
-	public int getOrder_Customer() {
-		return order_Customer;
-	}
-
-	public void setOrder_Customer(int order_Customer) {
-		this.order_Customer = order_Customer;
-	}
-
-	public int getOrder_Caterer() {
-		return order_Caterer;
-	}
-
-	public void setOrder_Caterer(int order_Caterer) {
-		this.order_Caterer = order_Caterer;
-	}
-
+	
 	public StatusType getOrder_Status() {
 		return order_Status;
 	}
@@ -167,15 +139,16 @@ public class Order {
 		this.order_Zipcode = order_Zipcode;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + order_Amount;
-		result = prime * result + order_Caterer;
+		result = prime * result + ((order_Caterer == null) ? 0 : order_Caterer.hashCode());
 		result = prime * result + ((order_City == null) ? 0 : order_City.hashCode());
 		result = prime * result + ((order_Comment == null) ? 0 : order_Comment.hashCode());
-		result = prime * result + order_Customer;
+		result = prime * result + ((order_Customer == null) ? 0 : order_Customer.hashCode());
 		result = prime * result + ((order_Date == null) ? 0 : order_Date.hashCode());
 		result = prime * result + order_Id;
 		result = prime * result + order_NumOfAttendees;
@@ -184,6 +157,8 @@ public class Order {
 		result = prime * result + order_Zipcode;
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -196,7 +171,10 @@ public class Order {
 		Order other = (Order) obj;
 		if (order_Amount != other.order_Amount)
 			return false;
-		if (order_Caterer != other.order_Caterer)
+		if (order_Caterer == null) {
+			if (other.order_Caterer != null)
+				return false;
+		} else if (!order_Caterer.equals(other.order_Caterer))
 			return false;
 		if (order_City == null) {
 			if (other.order_City != null)
@@ -208,7 +186,10 @@ public class Order {
 				return false;
 		} else if (!order_Comment.equals(other.order_Comment))
 			return false;
-		if (order_Customer != other.order_Customer)
+		if (order_Customer == null) {
+			if (other.order_Customer != null)
+				return false;
+		} else if (!order_Customer.equals(other.order_Customer))
 			return false;
 		if (order_Date == null) {
 			if (other.order_Date != null)
@@ -233,6 +214,51 @@ public class Order {
 			return false;
 		return true;
 	}
+
+
+
+	public User getOrder_Customer() {
+		return order_Customer;
+	}
+
+
+
+	public void setOrder_Customer(User order_Customer) {
+		this.order_Customer = order_Customer;
+	}
+
+
+
+	public Caterer getOrder_Caterer() {
+		return order_Caterer;
+	}
+
+
+
+	public void setOrder_Caterer(Caterer order_Caterer) {
+		this.order_Caterer = order_Caterer;
+	}
+
+
+
+	public Order(int order_Id, User order_Customer, Caterer order_Caterer, StatusType order_Status, int order_Amount,
+			Date order_Date, int order_NumOfAttendees, String order_Comment, State order_State, String order_City,
+			int order_Zipcode) {
+		super();
+		this.order_Id = order_Id;
+		this.order_Customer = order_Customer;
+		this.order_Caterer = order_Caterer;
+		this.order_Status = order_Status;
+		this.order_Amount = order_Amount;
+		this.order_Date = order_Date;
+		this.order_NumOfAttendees = order_NumOfAttendees;
+		this.order_Comment = order_Comment;
+		this.order_State = order_State;
+		this.order_City = order_City;
+		this.order_Zipcode = order_Zipcode;
+	}
+
+
 
 	@Override
 	public String toString() {

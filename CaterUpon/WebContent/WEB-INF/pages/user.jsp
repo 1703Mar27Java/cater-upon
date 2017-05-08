@@ -68,9 +68,9 @@
 		<h1>Welcome ${userBean.getUser_Username()}</h1>
 		<h2>View or Update Your User Info.</h2>
 
-		<div id="divPendingReqs">
+		<div id="divUpdates">
 
-			Email: ${userBean.getUser_Email()} 
+			Email: <div id="em">${userBean.getUser_Email()} </div>
 			<input id="inTxtEm" type="text" size="15" placeholder="Enter Your New Email" />
 			<button id="btnShowUpdateFormEmail" type="button"
 				class="btn btn-xs btn-warning">Update Email</button>
@@ -90,7 +90,11 @@
 
 		<!-- Info bar -->
 		<div id="alertTxt" class="alert alert-warning" role="alert"></div>
-
+		
+		<div id = "upcomingEvents">
+			<h1>Your upcoming events:</h1>
+			${uOrders.toString()}
+		</div>
 	</div>
 </body>
 <script>
@@ -114,7 +118,6 @@
 		$("#inTxtEm").hide();
 		$("#btnSubmitEmail").hide();
 		$("#btnShowUpdateFormEmail").show();
-		
 		//perform ajax to update email
 		var em=$("#inTxtEm").val();
 		var u = "${userBean.getUser_Username()}";
@@ -128,17 +131,10 @@
 			dataType : 'json',
 			url : "setEmail",
 			data : emData, // Note it is important without stringifying
-			success : function(data) {
-				console.log("SUCCESS: ", data);
+			complete : function(data) {
 				$("#alertTxt").show();
 				$("#alertTxt").text("Successfully updated email!");
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-
-			},
-			done : function(e) {
-				console.log("DONE");
+				$("#em").text(data.responseText);
 			}
 		});
 	});
@@ -164,9 +160,9 @@
 			$("#alertTxt").show();
 			$("#alertTxt").text("Passwords must match!!");
 		} 
-		else if(pw1.length<5) {
+		else if(pw1.length<4) {
 			$("#alertTxt").show();
-			$("#alertTxt").text("Password must be more than 5 characters long!!");
+			$("#alertTxt").text("Password must be more than 4 characters long!!");
 		} 
 		else {
 			var pwData = {

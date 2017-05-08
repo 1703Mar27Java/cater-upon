@@ -1,5 +1,7 @@
 package com.revature.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.revature.dao.DaoImpl;
+import com.revature.domain.Order;
 import com.revature.domain.User;
 import com.revature.domain.UserType;
 import com.revature.enums.UserTypes;
@@ -45,6 +49,7 @@ public class CatererController {
 		newU = dao.getUserByUsername(u);
 		newU.setUser_Password(pw);
 		dao.updateUser(newU);
+		s.setAttribute("userBean", newU);
 		System.out.println(dao.getUserByUsername(u));
 		return "{\"msg\":\"success\"}";
 		
@@ -57,23 +62,40 @@ public class CatererController {
 		newU = dao.getUserByUsername(u);
 		newU.setUser_Email(em);
 		dao.updateUser(newU);
+	
+		s.setAttribute("userBean", newU);
 		System.out.println(dao.getUserByUsername(u));
-		return "{\"msg\":\"success\"}";
+		return newU.getUser_Email().toString();
 		
 	}
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
+		/*
+		DaoImpl dao = new DaoImpl();
+		Order o = new Order();
+		o.setOrder_NumOfAttendees(25);
+		
+		o.setOrder_Customer(dao.getUserByUsername("user"));
+		o.setOrder_Comment("test");
+		o.setOrder_City("Tampa");
+		o.setOrder_Zipcode(33624);
+		
+		o.setOrder_Amount(111);
+		dao.persistOrder(o);
+		*/
 		ModelAndView model = new ModelAndView();
+		
 		model.setViewName("index");
 		model.addObject("command", new User());
-		return model;
+		return model; 
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("command") User p, Model m) {
 		if (p != null) {
 			DaoImpl dao = new DaoImpl();
+			
 			// login test
 			// if we fail the login we go back to the login page
 			// else we check what page to reroute to based on user in DB
@@ -87,14 +109,16 @@ public class CatererController {
 				// 1: Customer
 				// 2: Caterer
 				UserType t = u.getUser_UserType();
-				
 				if (t.getUserType_Type()==UserTypes.Customer) {
-					ModelAndView mv = new ModelAndView();
-					mv.addObject("userBean", u);
+					
+					List<Order> orders=dao.getOrdersByCustId(u.getUser_Id());
+					System.out.println(orders);
+					s.setAttribute("uOrders", orders);
 					
 					return new ModelAndView("redirect:/user");
-				} else
+				} else {
 					return new ModelAndView("redirect:/caterer");
+				}
 			}
 		}
 		return new ModelAndView("redirect:/");

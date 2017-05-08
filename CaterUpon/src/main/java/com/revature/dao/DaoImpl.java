@@ -61,6 +61,15 @@ public class DaoImpl implements Dao {
 		
 		return order;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Order> getOrdersByCustId(int id) {
+		List<Order> orders = new ArrayList<Order>();
+		Session sesh = HibernateUtil.getSession();
+		orders = sesh.createQuery("from Order where ORDER_CUSTOMER = :id").setInteger("id", id).list();
+		return orders;
+	}
 
 	@Override
 	public int saveUser(User user) {
@@ -260,6 +269,7 @@ public class DaoImpl implements Dao {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Caterer> findAllCatererByCity(String City) {
 		List<Caterer> availableCaterer = new ArrayList<Caterer>();
@@ -279,6 +289,7 @@ public class DaoImpl implements Dao {
 		return availableCaterer;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Caterer> findAllCatererByZip(int Zipcode) {
 		

@@ -26,6 +26,7 @@ public class MainClass {
 //		System.out.println(user.toString());
 //		
 		DaoImpl dao = new DaoImpl();
+		
 //		
 //		User newuser = new User();
 //		UserType ut = new UserType();

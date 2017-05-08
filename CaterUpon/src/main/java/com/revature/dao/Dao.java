@@ -11,7 +11,7 @@ public interface Dao {
 	// Returns by Id
 	public User getUserById(int id);
 	public Order getOrderById(int id);
-	
+	public List<Order> getOrdersByCustId(int id);
 	// Save
 	public int saveUser(User user);
 	public int saveOrder(Order order);
