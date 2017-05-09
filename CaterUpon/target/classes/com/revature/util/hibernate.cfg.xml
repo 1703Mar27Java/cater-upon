@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	<hibernate-configuration>
+		<session-factory>
+			<property name="hibernate.connection.username">Eeric5</property>
+			<property name="hibernate.connection.password">motter1281</property>
+			<property name="hibernate.connection.url">jdbc:oracle:thin:@ebdb.cti5brw1nrxx.us-east-2.rds.amazonaws.com:1521:ORCL</property>
+			<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+			<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+	
+			<property name="hibernate.show_sql"></property> 
+	
+			<!-- property name="hibernate.show_sql"></property> -->
+			<!-- this creates our db. set it to update (or nothing) if db exists -->
+			<property name="hibernate.hbm2ddl.auto">update</property>
+	
+			<!-- map domains -->
+			<mapping class="com.revature.domain.User" />
+			<mapping class="com.revature.domain.Order" />
+			<mapping class="com.revature.domain.Review"/>
+			<mapping class="com.revature.domain.Caterer" />
+			
+			<mapping class="com.revature.domain.State" />
+			<mapping class="com.revature.domain.Cuisine" />
+			<mapping class="com.revature.domain.UserType" />
+			<mapping class="com.revature.domain.StatusType"/>
+			<!-- <mapping class="one.to.many.Order" /> -->
+
+		</session-factory>
+	</hibernate-configuration>

@@ -15,6 +15,6 @@ public class HibernateUtil {
 	}
 
 	public static Session getSession() {
-		return sessionFactory("hibernate.cfg.xml").openSession();
+		return sessionFactory("../hibernate.cfg.xml").openSession();
 	}
 }
