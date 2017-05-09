@@ -41,7 +41,6 @@ public class CatererController {
 		return "userSearch";
 	}
 	
-	
 	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)
 	public @ResponseBody String resetPw(@RequestParam String pw, @RequestParam String u) {
 		DaoImpl dao = new DaoImpl();

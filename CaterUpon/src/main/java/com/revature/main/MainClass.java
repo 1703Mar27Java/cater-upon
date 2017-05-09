@@ -59,6 +59,6 @@ public class MainClass {
 //		System.out.println(util.DistanceBetweenTwoCity("Bradenton", "Orlando"));
 //		
 		
-		System.out.println(dao.findAllCatererByZip(34212));
+		//System.out.println(dao.findAllCatererByZip(34212));
 	}
 }
