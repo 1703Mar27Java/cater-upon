@@ -41,4 +41,5 @@ public interface Dao {
 	
 	//Update
 	public void updateUser(User user);
+	public void updateOrder(Order o);
 }

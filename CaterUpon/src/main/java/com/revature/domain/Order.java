@@ -10,61 +10,72 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderSeq")
 	@SequenceGenerator(allocationSize = 1, name = "orderSeq", sequenceName = "ORDER_SEQ")
-	
+
 	// Order Variables
-	//	Order_Id
+	// Order_Id
 	@Column(name = "ORDER_ID")
 	protected int order_Id;
-	
-	//	Order_Customer
+
+	// Order_Customer
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORDER_CUSTOMER")
 	protected User order_Customer;
-	
-	//	Order_Caterer
+
+	// Order_Caterer
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORDER_CATERER")
 	protected Caterer order_Caterer;
-	
-	//	Order_Status
+
+	// Order_Status
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORDER_STATUS")
 	protected StatusType order_Status;
-	
-	//	Order_Amount
+
+	// Order_Amount
 	@Column(name = "ORDER_AMOUNT")
 	protected int order_Amount;
-	
-	//	Order_Date
+
+	// Order_Date
 	@Column(name = "ORDER_DATE")
 	protected Date order_Date;
-	
-	//	Order_NumOfAttendees
+
+	// Order_NumOfAttendees
 	@Column(name = "ORDER_NUMOFATTENDEES")
 	protected int order_NumOfAttendees;
 
-	//	Order_Comments
+	// Order_Comments
 	@Column(name = "ORDER_COMMENT")
 	protected String order_Comment;
-	
-	//	Order_State
+
+	// Order_State
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDER_STATE")
 	protected State order_State;
-	
-	//	Order_City
+
+	// Order_City
 	@Column(name = "ORDER_CITY")
 	protected String order_City;
-	
+
 	@Column(name = "ORDER_ZIPCODE")
 	protected int order_Zipcode;
 
-	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
+	// flag to indicate if a review has been submitted for this order
+	@Column(name = "ORDER_REVIEW_FLAG")
+	protected int order_revFlag;
+
+	public int getOrder_revFlag() {
+		return order_revFlag;
+	}
+	
+	public void setOrder_revFlag(int order_revFlag) {
+		this.order_revFlag = order_revFlag;
 	}
 
-	
+	public Order() {
+		super();
+		this.order_revFlag = 0;
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getOrder_Id() {
 		return order_Id;
@@ -74,7 +85,6 @@ public class Order {
 		this.order_Id = order_Id;
 	}
 
-	
 	public StatusType getOrder_Status() {
 		return order_Status;
 	}
@@ -139,7 +149,6 @@ public class Order {
 		this.order_Zipcode = order_Zipcode;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,8 +166,6 @@ public class Order {
 		result = prime * result + order_Zipcode;
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -215,31 +222,21 @@ public class Order {
 		return true;
 	}
 
-
-
 	public User getOrder_Customer() {
 		return order_Customer;
 	}
-
-
 
 	public void setOrder_Customer(User order_Customer) {
 		this.order_Customer = order_Customer;
 	}
 
-
-
 	public Caterer getOrder_Caterer() {
 		return order_Caterer;
 	}
 
-
-
 	public void setOrder_Caterer(Caterer order_Caterer) {
 		this.order_Caterer = order_Caterer;
 	}
-
-
 
 	public Order(int order_Id, User order_Customer, Caterer order_Caterer, StatusType order_Status, int order_Amount,
 			Date order_Date, int order_NumOfAttendees, String order_Comment, State order_State, String order_City,
@@ -258,8 +255,6 @@ public class Order {
 		this.order_Zipcode = order_Zipcode;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Order [order_Id=" + order_Id + ", order_Customer=" + order_Customer + ", order_Caterer=" + order_Caterer
@@ -269,5 +264,4 @@ public class Order {
 				+ "]";
 	}
 
-	
 }

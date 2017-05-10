@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import com.revature.dao.DaoImpl;
 import com.revature.domain.Order;
 import com.revature.domain.User;
 import com.revature.domain.UserType;
+import com.revature.enums.StatusTypes;
 import com.revature.enums.UserTypes;
 
 @Controller
@@ -54,6 +56,17 @@ public class CatererController {
 		
 	}
 	
+	@RequestMapping(value = "/setComment", method = RequestMethod.POST)
+	public @ResponseBody String setComment(@RequestParam String oid, @RequestParam String cmt) {
+		DaoImpl dao = new DaoImpl();
+		Order o = dao.getOrderById(Integer.parseInt(oid));
+		o.setOrder_revFlag(1);
+		//dao.updateOrder(o);
+		//get rating and update review in db
+		return "success?";
+		
+	}
+	
 	@RequestMapping(value = "/setEmail", method = RequestMethod.POST)
 	public @ResponseBody String setEmail(@RequestParam String em, @RequestParam String u) {
 		DaoImpl dao = new DaoImpl();
@@ -70,19 +83,6 @@ public class CatererController {
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
-		/*
-		DaoImpl dao = new DaoImpl();
-		Order o = new Order();
-		o.setOrder_NumOfAttendees(25);
-		
-		o.setOrder_Customer(dao.getUserByUsername("user"));
-		o.setOrder_Comment("test");
-		o.setOrder_City("Tampa");
-		o.setOrder_Zipcode(33624);
-		
-		o.setOrder_Amount(111);
-		dao.persistOrder(o);
-		*/
 		ModelAndView model = new ModelAndView();
 		
 		model.setViewName("index");
@@ -103,7 +103,7 @@ public class CatererController {
 				u = dao.getUserByUsername(p.getUser_Username());
 				System.out.println("Logging in with user: " + u); 
 				s.setAttribute("userBean", u);
-
+				
 				// User types from DB to reroute to correct page
 				// 1: Customer
 				// 2: Caterer
@@ -111,9 +111,9 @@ public class CatererController {
 				if (t.getUserType_Type()==UserTypes.Customer) {
 					
 					List<Order> orders=dao.getOrdersByCustId(u.getUser_Id());
+					
 					System.out.println(orders);
 					s.setAttribute("uOrders", orders);
-					
 					return new ModelAndView("redirect:/user");
 				} else {
 					return new ModelAndView("redirect:/caterer");

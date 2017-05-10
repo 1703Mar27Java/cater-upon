@@ -54,7 +54,7 @@ public class DaoImpl implements Dao {
 		Order order = null;
 		List<Order> orders = new ArrayList<Order>();
 		Session sesh = HibernateUtil.getSession();
-		orders = sesh.createQuery("from User where id = :id").setInteger("id", id).list();
+		orders = sesh.createQuery("from Order where ORDER_ID= :id").setInteger("id", id).list();
 		if (!orders.isEmpty()) {
 			order = orders.get(0);
 		}
@@ -268,6 +268,14 @@ public class DaoImpl implements Dao {
 		
 	}
 
+	@Override
+	public void updateOrder(Order o) {
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.update(o);
+		tx.commit();
+		
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
