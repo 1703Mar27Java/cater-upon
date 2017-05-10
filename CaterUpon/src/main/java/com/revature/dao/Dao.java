@@ -41,4 +41,6 @@ public interface Dao {
 	
 	//Update
 	public void updateUser(User user);
+	
+	public List<Caterer> getCatererRefinedSearch(String order, String cuisine, String city, int zipcode);
 }

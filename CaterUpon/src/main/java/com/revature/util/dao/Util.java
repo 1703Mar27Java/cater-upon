@@ -65,7 +65,7 @@ public class Util {
 				stream.close();
 			}
 
-			return (String) content.toString();
+			return content.toString();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

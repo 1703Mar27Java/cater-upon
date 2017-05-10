@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
-
+import org.hibernate.criterion.Order;
 import org.hibernate.*;
 import com.revature.util.dao.HibernateUtil;
 import com.revature.util.dao.Util;
 import com.revature.domain.*;
-import com.revature.enums.Cuisines;
-import com.revature.enums.States;
+import com.revature.enums.*;
+
 @Transactional
-public class DaoImpl implements Dao {	
+public class DaoImpl implements Dao {
 	List<User> AllUsers;
 
 	public DaoImpl() {
@@ -29,11 +29,11 @@ public class DaoImpl implements Dao {
 		if (!users.isEmpty()) {
 			user = users.get(0);
 		}
-		
+
 		return user;
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getUserById(int id) {
@@ -44,21 +44,21 @@ public class DaoImpl implements Dao {
 		if (!users.isEmpty()) {
 			user = users.get(0);
 		}
-		
+
 		return user;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Order getOrderById(int id) {
-		Order order = null;
-		List<Order> orders = new ArrayList<Order>();
+	public com.revature.domain.Order getOrderById(int id) {
+		com.revature.domain.Order order = null;
+		List<com.revature.domain.Order> orders = new ArrayList<com.revature.domain.Order>();
 		Session sesh = HibernateUtil.getSession();
 		orders = sesh.createQuery("from User where id = :id").setInteger("id", id).list();
 		if (!orders.isEmpty()) {
 			order = orders.get(0);
 		}
-		
+
 		return order;
 	}
 
@@ -66,15 +66,15 @@ public class DaoImpl implements Dao {
 	public int saveUser(User user) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(user);
-		
+
 		return result;
 	}
 
 	@Override
-	public int saveOrder(Order order) {
+	public int saveOrder(com.revature.domain.Order order) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(order);
-		
+
 		return result;
 	}
 
@@ -86,9 +86,9 @@ public class DaoImpl implements Dao {
 		tx.commit();
 		sesh.close();
 	}
-	
+
 	@Override
-	public void persistOrder(Order order) {
+	public void persistOrder(com.revature.domain.Order order) {
 		Session sesh = HibernateUtil.getSession();
 		Transaction tx = sesh.beginTransaction();
 		sesh.persist(order);
@@ -96,6 +96,7 @@ public class DaoImpl implements Dao {
 		sesh.close();
 	}
 
+	@Override
 	public void persistState(State state) {
 		Session sesh = HibernateUtil.getSession();
 		Transaction tx = sesh.beginTransaction();
@@ -152,29 +153,22 @@ public class DaoImpl implements Dao {
 		tx.commit();
 		sesh.close();
 	}
-/*
-	public void saveAllCuisines() {
-		int cuisinesCounter = 0;
-		Session sesh = HibernateUtil.getSession();
-		Transaction tx = sesh.beginTransaction();
 
-		for (Cuisines cuisine : Cuisines.values()) {
-			Cuisine newCuisine = new Cuisine();
-			newCuisine.setCuisine_Type(cuisine);
-			newCuisine.setCaterer_Id(cuisinesCounter);
-			cuisinesCounter++;
-			System.out.println(newCuisine.getCuisine_Type());
-			sesh.save(newCuisine);
-		}
-		tx.commit();
-		sesh.close();
-	}
-*/
+	/*
+	 * public void saveAllCuisines() { int cuisinesCounter = 0; Session sesh =
+	 * HibernateUtil.getSession(); Transaction tx = sesh.beginTransaction();
+	 * 
+	 * for (Cuisines cuisine : Cuisines.values()) { Cuisine newCuisine = new
+	 * Cuisine(); newCuisine.setCuisine_Type(cuisine);
+	 * newCuisine.setCaterer_Id(cuisinesCounter); cuisinesCounter++;
+	 * System.out.println(newCuisine.getCuisine_Type()); sesh.save(newCuisine);
+	 * } tx.commit(); sesh.close(); }
+	 */
 	@Override
 	public int saveStatusType(StatusType statusType) {
 		Session sesh = HibernateUtil.getSession();
 		int result = (int) sesh.save(statusType);
-		
+
 		return result;
 	}
 
@@ -239,11 +233,10 @@ public class DaoImpl implements Dao {
 	@Override
 	public boolean login(User user) {
 		Session sesh = HibernateUtil.getSession();
-		List<User> users = sesh.createQuery("from User where USER_USERNAME = :username and USER_PASSWORD = :password").
-				setString("username", user.getUser_Username()).setString("password", user.getUser_Password()).list();
+		List<User> users = sesh.createQuery("from User where USER_USERNAME = :username and USER_PASSWORD = :password")
+				.setString("username", user.getUser_Username()).setString("password", user.getUser_Password()).list();
 
-		if(!users.isEmpty())
-		{
+		if (!users.isEmpty()) {
 			user = users.get(0);
 			return true;
 		}
@@ -256,49 +249,72 @@ public class DaoImpl implements Dao {
 		Transaction tx = sesh.beginTransaction();
 		sesh.update(user);
 		tx.commit();
-		
-	}
 
+	}
 
 	@Override
 	public List<Caterer> findAllCatererByCity(String City) {
 		List<Caterer> availableCaterer = new ArrayList<Caterer>();
 		Session sesh = HibernateUtil.getSession();
-		
+
 		List<Caterer> caterers = sesh.createQuery("from Caterer").list();
 		Util util = new Util();
-		
-		for(int i = 0; i < caterers.size(); i++)
-		{
+
+		for (int i = 0; i < caterers.size(); i++) {
 			double distance = util.DistanceBetweenTwoCity(City, caterers.get(i).getCaterer_City().toString());
 			System.out.println(distance);
-			if(caterers.get(i).getCaterer_SearchRadius() > distance)
+			if (caterers.get(i).getCaterer_SearchRadius() > distance)
 				availableCaterer.add(caterers.get(i));
 		}
-		
+
 		return availableCaterer;
 	}
 
 	@Override
 	public List<Caterer> findAllCatererByZip(int Zipcode) {
-		
+
 		List<Caterer> availableCaterer = new ArrayList<Caterer>();
 		Session sesh = HibernateUtil.getSession();
-		
+
 		List<Caterer> caterers = sesh.createQuery("from Caterer").list();
 		Util util = new Util();
-		
-		for(int i = 0; i < caterers.size(); i++)
-		{
+
+		for (int i = 0; i < caterers.size(); i++) {
 			double distance = util.DistanceBetweenTwoZipcodes(Zipcode, caterers.get(i).getCaterer_Zipcode());
-			//System.out.println(distance);
-			if(caterers.get(i).getCaterer_SearchRadius() > distance)
+			// System.out.println(distance);
+			if (caterers.get(i).getCaterer_SearchRadius() > distance)
 				availableCaterer.add(caterers.get(i));
 		}
-		
+
 		return availableCaterer;
 	}
 
-	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Caterer> getCatererRefinedSearch(String order, String cuisine, String city, int zipcode) {
+		//List<Caterer> availableCaterer = new ArrayList<Caterer>();
+		Session sesh = HibernateUtil.getSession();
+		List<Caterer> caterers = new ArrayList<Caterer>();
+		Criteria crit = sesh.createCriteria(caterers.getClass());
 
+		if (order == "Ascending") {
+			crit.addOrder(Order.asc("caterer_Id"));
+			caterers = crit.list();
+		} else {
+			System.out.println(order);
+			crit.addOrder(Order.desc("caterer_Id"));
+			caterers = crit.list();
+			// caterers = sesh.createQuery("from Caterer").list();
+		}
+		// availableCaterer = findAllCatererByCity(city);
+		//Util util = new Util();
+
+		// for (int i = 0; i < caterers.size(); i++)
+		// if (util.DistanceBetweenTwoCity(city,
+		// caterers.get(i).getCaterer_City()) < caterers.get(i)
+		// .getCaterer_SearchRadius())
+		// availableCaterer.add(caterers.get(i));
+		sesh.close();
+		return caterers;
+	}
 }

@@ -1,11 +1,10 @@
 package com.revature.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.revature.dao.DaoImpl;
+import com.revature.domain.Caterer;
 import com.revature.domain.User;
 import com.revature.domain.UserType;
 import com.revature.enums.UserTypes;
@@ -35,6 +34,19 @@ public class CatererController {
 	@RequestMapping(value = "/userSearch")
 	public String userSearch() {
 		return "userSearch";
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public @ResponseBody String searchData(@RequestParam String order, @RequestParam String cuisine, @RequestParam String city, @RequestParam String zip) {
+		DaoImpl dao = new DaoImpl();
+		
+		if(zip.isEmpty())
+			zip = String.valueOf(0);
+		List<Caterer> caterers = dao.getCatererRefinedSearch(order, cuisine, city,  Integer.valueOf(zip));
+		
+		s.setAttribute("list", caterers);
+		return caterers.toString();
+		
 	}
 	
 	@RequestMapping(value = "/resetPass", method = RequestMethod.POST)

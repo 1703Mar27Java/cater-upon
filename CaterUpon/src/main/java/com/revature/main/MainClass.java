@@ -1,19 +1,7 @@
 package com.revature.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.revature.dao.DaoImpl;
-import com.revature.domain.Caterer;
-import com.revature.domain.Order;
-import com.revature.domain.State;
-import com.revature.domain.StatusType;
-import com.revature.domain.User;
-import com.revature.domain.UserType;
-import com.revature.enums.States;
-import com.revature.enums.StatusTypes;
-import com.revature.enums.UserTypes;
-import com.revature.util.dao.Util;
+import com.revature.domain.*;
 
 public class MainClass {
 
@@ -41,13 +29,13 @@ public class MainClass {
 ////		st.setStatus_Id(2);
 ////		st.setStatus_Type(StatusTypes.Approved);
 ////		order.setOrder_Status(st);
-//		Caterer caterer = new Caterer();
+		Caterer caterer = new Caterer();
 //		State state = new State();
 //		
 //		state.setState_Name(States.Alaska);
 //		caterer.setCaterer_State(state);
 //		
-//		dao.saveCaterer(caterer);
+		dao.persistCaterer(caterer);
 //		
 //		//dao.persistOrder(order);
 //		//dao.persistUser(newuser);

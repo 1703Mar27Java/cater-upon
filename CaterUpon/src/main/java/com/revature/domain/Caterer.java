@@ -1,7 +1,7 @@
 package com.revature.domain;
 
 import javax.persistence.*;
-
+@Embeddable
 @Entity
 @Table(name = "CU_CATERER")
 public class Caterer {
@@ -31,6 +31,9 @@ public class Caterer {
 		
 	@Column(name = "CATERER_USER")
 	protected int caterer_User;
+	
+	@Column(name = "CATERER_CuisineId")
+	protected int caterer_CuisineId;
 
 	public Caterer() {
 		super();
@@ -156,10 +159,8 @@ public class Caterer {
 
 	@Override
 	public String toString() {
-		return "Caterer [caterer_Id=" + caterer_Id + ", caterer_SearchRadius=" + caterer_SearchRadius
-				+ ", caterer_Description=" + caterer_Description + ", caterer_State=" + caterer_State
-				+ ", caterer_City=" + caterer_City + ", caterer_Zipcode=" + caterer_Zipcode + ", caterer_User="
-				+ caterer_User + "]";
+		return caterer_Id + "," + caterer_SearchRadius + "," + caterer_Description + "," + caterer_State
+				+ "," + caterer_City + "," + caterer_Zipcode + ","	+ caterer_User;
 	}
 
 	
