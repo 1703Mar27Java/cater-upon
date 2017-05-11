@@ -1,10 +1,13 @@
 package com.revature.controller;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.HTMLDocument.Iterator;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +24,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.revature.dao.DaoImpl;
+import com.revature.domain.Caterer;
 import com.revature.domain.Order;
+import com.revature.domain.Review;
 import com.revature.domain.User;
 import com.revature.domain.UserType;
 import com.revature.enums.StatusTypes;
@@ -55,15 +60,37 @@ public class CatererController {
 		return "{\"msg\":\"success\"}";
 		
 	}
-	
+	@Transactional
 	@RequestMapping(value = "/setComment", method = RequestMethod.POST)
-	public @ResponseBody String setComment(@RequestParam String oid, @RequestParam String cmt) {
+	public @ResponseBody String setComment( @RequestParam String oid, @RequestParam String cmt, @RequestParam String rate, @RequestParam String user) {
+		@SuppressWarnings("unchecked")
+		List<Order>  oBean =  (List<Order>) s.getAttribute("uOrders");
 		DaoImpl dao = new DaoImpl();
-		Order o = dao.getOrderById(Integer.parseInt(oid));
+		
+		//scan through order bean, remove the current order
+		//then set its flag, then place it back in the bean.
+		Order o = new Order();
+		for (ListIterator<Order> iter = oBean.listIterator(); iter.hasNext(); ) {
+		    Order a = iter.next();
+		    if (a.getOrder_Id()==Integer.parseInt(oid)) {
+		    	o=a;
+		    	iter.remove();
+		    	break;
+		    }
+		}
 		o.setOrder_revFlag(1);
-		//dao.updateOrder(o);
-		//get rating and update review in db
-		return "success?";
+		oBean.add(o);
+		//create and set values of the new order
+		Review r = new Review();
+		r.setReview_Author(Integer.parseInt(user));
+		r.setReview_Message(cmt);
+		r.setReview_Rating(Integer.parseInt(rate));
+		r.setReview_Caterer(o.getOrder_Caterer().getCaterer_Id());
+		//save to db and session
+		dao.persistReview(r);
+		dao.updateOrder(o);
+		s.setAttribute("uOrders", oBean);
+		return "";
 		
 	}
 	
@@ -109,14 +136,18 @@ public class CatererController {
 				// 2: Caterer
 				UserType t = u.getUser_UserType();
 				if (t.getUserType_Type()==UserTypes.Customer) {
-					
+					//get user orders
 					List<Order> orders=dao.getOrdersByCustId(u.getUser_Id());
-					
 					System.out.println(orders);
+					
 					s.setAttribute("uOrders", orders);
 					return new ModelAndView("redirect:/user");
 				} else {
-					return new ModelAndView("redirect:/caterer");
+					//get caterer's orders
+					Caterer c = dao.getCatererByUserId(u.getUser_Id());
+					List<Order> orders=dao.getOrdersByCatererId(c.getCaterer_Id());
+					s.setAttribute("uOrders", orders);
+ 					return new ModelAndView("redirect:/caterer");
 				}
 			}
 		}
@@ -126,6 +157,10 @@ public class CatererController {
 	@RequestMapping(value = { "/user" }, method = RequestMethod.GET)
 	public String userView(ModelAndView m) {
 		return "user";
+	}
+	@RequestMapping(value = { "/caterer" }, method = RequestMethod.GET)
+	public String catererView(ModelAndView m) {
+		return "caterer";
 	}
 	
 	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
