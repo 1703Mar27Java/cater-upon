@@ -359,4 +359,30 @@ public class DaoImpl implements Dao {
 		return availableCaterers;
 	}
 
+	@SuppressWarnings("unchecked")
+	public Caterer getCatererByUserId(int id) {
+		List<Caterer> cs = new ArrayList<Caterer>();
+		Caterer c = null;
+		Session sesh = HibernateUtil.getSession();
+		cs = sesh.createQuery("from Caterer where CATERER_USER = :id").setInteger("id", id).list();
+		if (!cs.isEmpty()) {
+			c = cs.get(0);
+			
+		}
+		if (sesh.isOpen())
+			sesh.close();
+		return c;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<com.revature.domain.Order> getOrdersByCatererId(int id) {
+		List<com.revature.domain.Order> orders = new ArrayList<com.revature.domain.Order>();
+		Session sesh = HibernateUtil.getSession();
+		orders = sesh.createQuery("from Order where ORDER_CATERER = :id").setInteger("id", id).list();
+		if (sesh.isOpen())
+			sesh.close();
+		return orders;
+	}
+
+
 }
