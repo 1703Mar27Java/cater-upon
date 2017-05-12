@@ -104,6 +104,8 @@
 									<option>Approve</option>
 									<option>Deny</option>
 							</select></td>
+							<td style="display: none;"><c:out
+									value="${row.getOrder_Id()}" /></td>
 						</tr>
 					</c:if>
 				</c:forEach>
@@ -141,6 +143,8 @@
 									<option>Fulfilled</option>
 									<option>Cancelled</option>
 							</select></td>
+							<td style="display: none;"><c:out
+									value="${row.getOrder_Id()}" /></td>
 						</tr>
 					</c:if>
 				</c:forEach>
@@ -159,7 +163,7 @@
 				
 			</tr>
 			<c:forEach var="row" items="${uOrders}">
-					<c:if test="${row.getOrder_Status().getStatus_Id()==2 || row.getOrder_Status().getStatus_Id()==4}">
+					<c:if test="${row.getOrder_Status().getStatus_Id()==2 || row.getOrder_Status().getStatus_Id()==5}">
 						<tr class="warning">
 							<td><c:out value="${row.getOrder_Customer().getUser_Username()}" /></td>
 							<td><c:out value="${row.getOrder_Date().getMonth()}/${row.getOrder_Date().getDate()}/${row.getOrder_Date().getYear()+1900} at 
@@ -181,9 +185,66 @@
 </body>
 <script>
 	//event handler for dropdown in pending table
-	//TODO FINISH UPDATING OPTION JQUERY EVENTS
 	$('#pendingTbl').on('change','select', function(){
-		console.log($(this)[0].value);
+		var stat= $(this)[0].value;
+		var tr = $(this).parent().parent();
+		var td = $(this).parent().parent().children();
+		var oid=$(this).parent().parent().children()[7].innerHTML;
+		console.log(stat+" for order #"+oid);
+		if(stat!="- - - -"){
+			var data = {
+					"oid" : oid,
+					"stat": stat
+			}
+			$.ajax({
+				type : "POST", 
+				dataType : 'json',
+				url : "setPending",
+				data : data, // Note it is important without stringifying
+				complete : function(data) {
+					//hide the button we pressed earlier
+					//move the row pressed to the correct table
+					//approved => upcoming table
+					//denied => fulfilled/denied table
+					console.log(stat);
+					if(stat=="Approve"){
+						td[6].innerHTML="<select> <option>- - - - -</option><option>Fulfilled</option><option>Cancelled</option></select>"
+						tr.appendTo($('#upcomingTbl'))
+					}
+					else{
+						td[6].innerHTML="";
+						tr.appendTo($('#fulfilledTbl'))
+					}
+				}
+			});
+		}
+	});
+	//event handler for dropdown in upcoming table
+	$('#upcomingTbl').on('change','select', function(){
+		var stat= $(this)[0].value;
+		var tr = $(this).parent().parent();
+		var td = $(this).parent().parent().children();
+		var oid=$(this).parent().parent().children()[7].innerHTML;
+		console.log(stat+" for order #"+oid);
+		if(stat!="- - - - -"){
+			var data = {
+					"oid" : oid,
+					"stat": stat
+			}
+			$.ajax({
+				type : "POST", 
+				dataType : 'json',
+				url : "setUpcoming",
+				data : data, // Note it is important without stringifying
+				complete : function(data) {
+					//hide the button we pressed earlier
+					console.log(data);
+					td[6].innerHTML="";
+					tr.appendTo($('#fulfilledTbl'))
+				
+				}
+			});
+		}
 	});
 </script>
 </html>
