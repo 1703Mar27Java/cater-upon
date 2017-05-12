@@ -48,7 +48,7 @@ public class Order {
 	protected String order_Comment;
 
 	// Order_State
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORDER_STATE")
 	protected State order_State;
 

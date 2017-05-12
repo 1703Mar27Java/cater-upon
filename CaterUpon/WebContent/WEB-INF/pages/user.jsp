@@ -40,10 +40,13 @@
 		<nav class="navbar navbar-inverse" style="background-color: #495867 ;">
 		<div class="container">
 			<!-- Logo Image Goes Here -->
-			<img src=<c:url value="/resources/img/logo.png" />
-				style="float: left;" width="300" height="75">
-
-			<div class="navbar-collapse collapse">
+			<a href="/CaterUpon/">
+				<img src=<c:url value="/resources/img/logo.png" />
+					style="float: left;" width="300" height="75">
+			</a>
+			<h1 style="float:left; color: #F7A247;">&nbsp&nbsp&nbsp Welcome, ${userBean.getUser_Username()}</h1>
+			
+			<div style="float:right;" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown navbar-right"><a href="#"
 						class="dropdown-toggle " data-toggle="dropdown" role="button"
@@ -67,7 +70,7 @@
 	</div>
 	<!-- section to update password and email -->
 	<div class="pageContent">
-		<h1>Welcome ${userBean.getUser_Username()}</h1>
+		
 		<h2>View or Update Your User Info.</h2>
 
 		<div id="divUpdates">
@@ -203,7 +206,7 @@
 						<div class="modal-footer">
 							<p style="float: left; font-size: 75%">Please Provide a
 								Rating:</p>
-							<select style="float: left; width: 60px;" class="form-control">
+							<select id="modalSelect" style="float: left; width: 60px;" class="form-control">
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
@@ -228,23 +231,34 @@
 <script>
 	//click event for "past events" table UNREVIEWED rows
 	$('#pastEvents').on('click', 'button', function() {
-		var oid = $(this).parent().parent().children()[7].innerHTML
+		//getting the order id stored in the hidden field
+		var oid = $(this).parent().parent().children()[7].innerHTML;
+		//store the button pressed
+		var btn=$(this);
+		//perform ajax query when
 		$('#modalSbmt').click(function() {
 			var cmt = $('#comment').val();
+			var rate= $("#modalSelect").val();
+			var user= '${userBean.getUser_Id()}'
 			var data = {
 				"oid" : oid,
-				"cmt" : cmt
+				"cmt" : cmt,
+				"rate": rate,
+				"user": user
 			}
+			//perform ajax call to order review module of controller
 			$.ajax({
-				type : "POST",
-				/*contentType : 'application/json; charset=utf-8',*///use Default contentType
+				type : "POST", 
 				dataType : 'json',
 				url : "setComment",
 				data : data, // Note it is important without stringifying
 				complete : function(data) {
-					console.log(data.responseText);
+					//hide the button we pressed earlier
+					btn.parent().children().hide()	
+					btn.parent().append("<p>(Reviewed)</p>")
 				}
 			});
+			
 		})
 
 	});

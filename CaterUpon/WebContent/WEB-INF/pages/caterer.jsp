@@ -37,11 +37,14 @@
 		<nav class="navbar navbar-inverse" style="background-color: #495867 ;">
 		<div class="container">
 			<!-- Logo Image Goes Here -->
-			<img src=<c:url value="/resources/img/logo.png" /> width="300"
-				height="75" style="float: left;">
+			<a href="/CaterUpon/">
+				<img src=<c:url value="/resources/img/logo.png" /> width="300"
+					height="75" style="float: left;">
+			</a>
+				<h1 style="float:left; color: #F7A247;">&nbsp&nbsp&nbsp Welcome, ${userBean.getUser_Username()}</h1>
 
 
-			<div class="navbar-collapse collapse">
+			<div style="float:right;" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
 					<li class="dropdown navbar-right"><a href="#"
 						class="dropdown-toggle " data-toggle="dropdown" role="button"
@@ -65,10 +68,183 @@
 	</div>
 
 
+	<!-- This is where all the page content goes. -->
+	<!-- Display Pending, then approved/upcoming, then fulfilled/denied -->
 	<div class="pageContent">
 
-		<h1>SUCCESS , welcome ${user_Username}</h1>
-		<h2>caterer request page</h2>
+		<h2>Caterer Request Page</h2>
+		<br><br>
+		<h1>Your Pending Event Requests:</h1>
+		<table  id="pendingTbl" class="table table-responsive">
+			<tr class="info">
+				<th>Customer Name</th>
+				<th>Date of Event</th>
+				<th>Number of Attendees</th>
+				<th>Location of Event</th>
+				<th>Cost of Event</th>
+				<th>Order Comments</th>
+				<th>Approve or Deny</th>
+			</tr>
+			<c:forEach var="row" items="${uOrders}">
+					<c:if test="${row.getOrder_Status().getStatus_Id()==1}">
+						<tr class="warning">
+							<td><c:out value="${row.getOrder_Customer().getUser_Username()}" /></td>
+							<td><c:out value="${row.getOrder_Date().getMonth()}/${row.getOrder_Date().getDate()}/${row.getOrder_Date().getYear()+1900} at 
+								${row.getOrder_Date().getHours()}:${row.getOrder_Date().getMinutes()}"/></td>
+							<td><c:out value="${row.getOrder_NumOfAttendees()}" /></td>
+							<td>
+								<c:out value="${row.getOrder_City()}" />, 
+								<c:out value="${row.getOrder_State().getState_Name()}" />
+								<c:out value="${row.getOrder_Zipcode()}" />
+							</td>
+							<td><c:out value="${row.getOrder_Amount()}" /></td>
+							<td><c:out value="${row.getOrder_Comment()}" /></td>
+							<td><select>
+									<option>- - - -</option>
+									<option>Approve</option>
+									<option>Deny</option>
+							</select></td>
+							<td style="display: none;"><c:out
+									value="${row.getOrder_Id()}" /></td>
+						</tr>
+					</c:if>
+				</c:forEach>
+		</table>
+		
+		<br>
+		
+		<h1>Your Upcoming Event Requests:</h1>
+		<table id="upcomingTbl" class="table table-responsive">
+			<tr class="info">
+				<th>Customer Name</th>
+				<th>Date of Event</th>
+				<th>Number of Attendees</th>
+				<th>Location of Event</th>
+				<th>Cost of Event</th>
+				<th>Order Comments</th>
+				<th>Fulfill or Cancel</th>
+			</tr>
+			<c:forEach var="row" items="${uOrders}">
+					<c:if test="${row.getOrder_Status().getStatus_Id()==2 || row.getOrder_Status().getStatus_Id()==4}">
+						<tr class="warning">
+							<td><c:out value="${row.getOrder_Customer().getUser_Username()}" /></td>
+							<td><c:out value="${row.getOrder_Date().getMonth()}/${row.getOrder_Date().getDate()}/${row.getOrder_Date().getYear()+1900} at 
+								${row.getOrder_Date().getHours()}:${row.getOrder_Date().getMinutes()}"/></td>
+							<td><c:out value="${row.getOrder_NumOfAttendees()}" /></td>
+							<td>
+								<c:out value="${row.getOrder_City()}" />, 
+								<c:out value="${row.getOrder_State().getState_Name()}" />
+								<c:out value="${row.getOrder_Zipcode()}" />
+							</td>
+							<td><c:out value="${row.getOrder_Amount()}" /></td>
+							<td><c:out value="${row.getOrder_Comment()}" /></td>
+							<td><select>
+									<option>- - - - -</option>
+									<option>Fulfilled</option>
+									<option>Cancelled</option>
+							</select></td>
+							<td style="display: none;"><c:out
+									value="${row.getOrder_Id()}" /></td>
+						</tr>
+					</c:if>
+				</c:forEach>
+		</table>
+		
+		<br>
+		<h1>Your Fulfilled or Denied Event Requests:</h1>
+		<table  id="fulfilledTbl" class="table table-responsive">
+			<tr class="info">
+				<th>Customer Name</th>
+				<th>Date of Event</th>
+				<th>Number of Attendees</th>
+				<th>Location of Event</th>
+				<th>Cost of Event</th>
+				<th>Order Comments</th>
+				
+			</tr>
+			<c:forEach var="row" items="${uOrders}">
+					<c:if test="${row.getOrder_Status().getStatus_Id()==2 || row.getOrder_Status().getStatus_Id()==5}">
+						<tr class="warning">
+							<td><c:out value="${row.getOrder_Customer().getUser_Username()}" /></td>
+							<td><c:out value="${row.getOrder_Date().getMonth()}/${row.getOrder_Date().getDate()}/${row.getOrder_Date().getYear()+1900} at 
+								${row.getOrder_Date().getHours()}:${row.getOrder_Date().getMinutes()}"/></td>
+							<td><c:out value="${row.getOrder_NumOfAttendees()}" /></td>
+							<td>
+								<c:out value="${row.getOrder_City()}" />, 
+								<c:out value="${row.getOrder_State().getState_Name()}" />
+								<c:out value="${row.getOrder_Zipcode()}" />
+							</td>
+							<td><c:out value="${row.getOrder_Amount()}" /></td>
+							<td><c:out value="${row.getOrder_Comment()}" /></td>
+							
+						</tr>
+					</c:if>
+				</c:forEach>
+		</table>
 	</div>
 </body>
+<script>
+	//event handler for dropdown in pending table
+	$('#pendingTbl').on('change','select', function(){
+		var stat= $(this)[0].value;
+		var tr = $(this).parent().parent();
+		var td = $(this).parent().parent().children();
+		var oid=$(this).parent().parent().children()[7].innerHTML;
+		console.log(stat+" for order #"+oid);
+		if(stat!="- - - -"){
+			var data = {
+					"oid" : oid,
+					"stat": stat
+			}
+			$.ajax({
+				type : "POST", 
+				dataType : 'json',
+				url : "setPending",
+				data : data, // Note it is important without stringifying
+				complete : function(data) {
+					//hide the button we pressed earlier
+					//move the row pressed to the correct table
+					//approved => upcoming table
+					//denied => fulfilled/denied table
+					console.log(stat);
+					if(stat=="Approve"){
+						td[6].innerHTML="<select> <option>- - - - -</option><option>Fulfilled</option><option>Cancelled</option></select>"
+						tr.appendTo($('#upcomingTbl'))
+					}
+					else{
+						td[6].innerHTML="";
+						tr.appendTo($('#fulfilledTbl'))
+					}
+				}
+			});
+		}
+	});
+	//event handler for dropdown in upcoming table
+	$('#upcomingTbl').on('change','select', function(){
+		var stat= $(this)[0].value;
+		var tr = $(this).parent().parent();
+		var td = $(this).parent().parent().children();
+		var oid=$(this).parent().parent().children()[7].innerHTML;
+		console.log(stat+" for order #"+oid);
+		if(stat!="- - - - -"){
+			var data = {
+					"oid" : oid,
+					"stat": stat
+			}
+			$.ajax({
+				type : "POST", 
+				dataType : 'json',
+				url : "setUpcoming",
+				data : data, // Note it is important without stringifying
+				complete : function(data) {
+					//hide the button we pressed earlier
+					console.log(data);
+					td[6].innerHTML="";
+					tr.appendTo($('#fulfilledTbl'))
+				
+				}
+			});
+		}
+	});
+</script>
 </html>
