@@ -68,6 +68,14 @@ public class Caterer {
 		this.caterer_SearchRadius = caterer_SearchRadius;
 	}
 
+	public int getCaterer_CuisineId() {
+		return caterer_CuisineId;
+	}
+
+	public void setCaterer_CuisineId(int caterer_CuisineId) {
+		this.caterer_CuisineId = caterer_CuisineId;
+	}
+
 	public String getCaterer_Description() {
 		return caterer_Description;
 	}
@@ -160,7 +168,7 @@ public class Caterer {
 	@Override
 	public String toString() {
 		return caterer_Id + "," + caterer_SearchRadius + "," + caterer_Description + "," + caterer_State
-				+ "," + caterer_City + "," + caterer_Zipcode + ","	+ caterer_User;
+				+ "," + caterer_City + "," + caterer_Zipcode + ","	+ caterer_User + "," + caterer_CuisineId;
 	}
 
 	

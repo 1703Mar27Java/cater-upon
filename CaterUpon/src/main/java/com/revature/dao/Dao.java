@@ -41,10 +41,10 @@ public interface Dao {
 	
 	//Update
 	public void updateUser(User user);
-<<<<<<< HEAD
+
 	public void updateOrder(Order o);
-=======
+
 	
 	public List<Caterer> getCatererRefinedSearch(String order, String cuisine, String city, int zipcode);
->>>>>>> e0aeda8e4101cdcecbb12eedf86297034316bd65
+
 }
