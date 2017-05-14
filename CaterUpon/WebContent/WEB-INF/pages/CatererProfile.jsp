@@ -134,14 +134,14 @@
 									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 								</button>
 							</c:forEach>
-
-							<c:forEach begin="0" end="${4 - row.getReview_Rating()}">
-								<button type="button" class="btn btn-default btn-grey btn-xs"
-									aria-label="Left Align">
-									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
-							</c:forEach>
-
+							<c:if test="${row.getReview_Rating() < 5}">
+								<c:forEach begin="0" end="${4 - row.getReview_Rating()}">
+									<button type="button" class="btn btn-default btn-grey btn-xs"
+										aria-label="Left Align">
+										<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+									</button>
+								</c:forEach>
+							</c:if>
 
 						</div>
 					</div>
@@ -263,12 +263,11 @@
 				dataType : 'json',
 				url : "createOrder",
 				data : order,
-				complete : function(
-						data) {
+				complete : function(data) {
 					console.log("success")
 					window.location.href = "user";
 				}
-				
+
 			});
 		});
 	});
