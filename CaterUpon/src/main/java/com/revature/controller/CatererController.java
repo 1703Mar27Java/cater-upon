@@ -439,6 +439,11 @@ public class CatererController {
 		return "catererInfo";
 	}
 	
+	@RequestMapping(value = { "/CatererProfile" }, method = RequestMethod.GET)
+	public String CatererProfile(ModelAndView m) {
+		return "CatererProfile";
+	}
+	
 	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
 	public String addPerson(Model m) {
 		return "logout";
