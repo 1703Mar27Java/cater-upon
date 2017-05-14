@@ -44,4 +44,10 @@ public interface Dao {
 	//Update
 	public void updateUser(User user);
 	public void updateOrder(Order o);
+
+	public void updateCaterer(Caterer c);
+
+	public List<Review> getReviewByCatererId(int id);
+
+	User getUserByEmail(String e);
 }

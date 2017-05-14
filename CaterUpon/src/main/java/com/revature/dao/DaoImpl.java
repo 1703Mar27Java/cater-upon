@@ -34,6 +34,21 @@ public class DaoImpl implements Dao {
 		return user;
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getUserByEmail(String e) {
+		User user = null;
+		List<User> users = new ArrayList<User>();
+		Session sesh = HibernateUtil.getSession();
+		users = sesh.createQuery("from User where USER_EMAIL = :var").setString("var", e).list();
+		if (!users.isEmpty()) {
+			user = users.get(0);
+		}
+
+		return user;
+
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -286,6 +301,16 @@ public class DaoImpl implements Dao {
 		if (sesh.isOpen())
 			sesh.close();
 	}
+	
+	@Override
+	public void updateCaterer(Caterer c) {
+		Session sesh = HibernateUtil.getSession();
+		Transaction tx = sesh.beginTransaction();
+		sesh.update(c);
+		tx.commit();
+		if (sesh.isOpen())
+			sesh.close();
+	}
 
 	@Override
 	public void updateOrder(Order o) {
@@ -335,5 +360,16 @@ public class DaoImpl implements Dao {
 
 		return availableCaterer;
 	}
+	
+	@SuppressWarnings("unchecked")
+    @Override
+    public List<Review> getReviewByCatererId(int id) {
+        List<Review> cs = new ArrayList<Review>();
+        Session sesh = HibernateUtil.getSession();
+        cs = sesh.createQuery("from Review where REVIEW_CATERER = :id").setInteger("id", id).list();
+
+        sesh.close();
+        return cs;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -21,11 +22,15 @@ import com.revature.dao.DaoImpl;
 import com.revature.domain.Caterer;
 import com.revature.domain.Order;
 import com.revature.domain.Review;
+import com.revature.domain.State;
 import com.revature.domain.StatusType;
 import com.revature.domain.User;
 import com.revature.domain.UserType;
+import com.revature.enums.States;
 import com.revature.enums.StatusTypes;
 import com.revature.enums.UserTypes;
+import com.revature.util.dao.RandomStrings;
+import com.revature.util.dao.mailer;
 
 @Controller
 public class CatererController {
@@ -50,10 +55,76 @@ public class CatererController {
 		newU = dao.getUserByUsername(u);
 		newU.setUser_Password(pw);
 		dao.updateUser(newU);
+		
 		s.setAttribute("userBean", newU);
 		System.out.println(dao.getUserByUsername(u));
 		return "{\"msg\":\"success\"}";
 		
+	}
+	
+	@RequestMapping(value = "/setDescr", method = RequestMethod.POST)
+	public @ResponseBody String setDescr(@RequestParam String d, @RequestParam String u) {
+		DaoImpl dao = new DaoImpl();
+		Caterer c = new Caterer();
+		c = (Caterer) s.getAttribute("catererBean");
+		System.out.println(c);
+		c.setCaterer_Description(d);
+		dao.updateCaterer(c);
+		s.setAttribute("catererBean", c);
+		return c.getCaterer_Description();
+		
+	}
+	
+	@RequestMapping(value = "/setLoc", method = RequestMethod.POST)
+	public @ResponseBody String setLoc(@RequestParam String city, @RequestParam String state, @RequestParam String zip) {
+		DaoImpl dao = new DaoImpl();
+		Caterer c = new Caterer();
+		c = (Caterer) s.getAttribute("catererBean");
+		
+		c.setCaterer_City(city);
+		State st = new State();
+		States q= States.valueOf(state);
+		st.setState_Name(q);
+		st.setState_Id(q.ordinal()+1);
+		c.setCaterer_State(st);
+		c.setCaterer_Zipcode(Integer.parseInt(zip));
+		dao.updateCaterer(c);
+		s.setAttribute("catererBean", c);
+		return c.getCaterer_City()+", "
+			+c.getCaterer_State().getState_Name().toString()+" "
+			+c.getCaterer_Zipcode();
+		
+	}
+	
+	@RequestMapping(value = "/setRad", method = RequestMethod.POST)
+	public @ResponseBody String setRad(@RequestParam String r, @RequestParam String u) {
+		DaoImpl dao = new DaoImpl();
+		Caterer c = new Caterer();
+		c = (Caterer) s.getAttribute("catererBean");
+		System.out.println(c);
+		c.setCaterer_SearchRadius(Integer.parseInt(r)); 
+		dao.updateCaterer(c);
+		s.setAttribute("catererBean", c);
+		return Integer.valueOf(c.getCaterer_SearchRadius()).toString();
+		
+	}
+	
+	@RequestMapping(value = "/resetEmail", method = RequestMethod.POST)
+	public @ResponseBody String resetEmail(@RequestParam String e) {
+		DaoImpl dao = new DaoImpl();
+		User u = dao.getUserByEmail(e);
+		//get string of random 64 alphanumeric characters
+		String rand=RandomStrings.randomString(32);
+		u.setUser_Password(rand);
+		dao.updateUser(u);
+		mailer.mail(u.getUser_Email(), 
+				"This is a notification that your CaterUpon account"
+				+ " with username " + u.getUser_Username() + " has had "
+				+ "its password reset. \nThe new password is: \n" +
+				rand+" \nIf you feel that this password resset is in error "
+						+ ", please contact the administrator of CaterUpon at"
+						+ " cater.upon@gmail.com" );
+		return "";
 	}
 	
 	@Transactional
@@ -85,6 +156,7 @@ public class CatererController {
 		//save to db and session
 		dao.persistReview(r);
 		dao.updateOrder(o);
+		
 		s.setAttribute("uOrders", oBean);
 		return "";
 		
@@ -118,6 +190,11 @@ public class CatererController {
 		//System.out.println(oBean);
 		oBean.add(o);
 		//create and set values of the new order
+		mailer.mail(o.getOrder_Customer().getUser_Email(), 
+				"Your order for the date of "+o.getOrder_Date()
+				+" has been " + st.getStatus_Type().toString()
+				+". Please contact your caterer if you feel "
+				+ "this was in error."  );
 		
 		dao.updateOrder(o);
 		s.setAttribute("uOrders", oBean);
@@ -152,8 +229,13 @@ public class CatererController {
 		//System.out.println(o);
 		//System.out.println(oBean);
 		oBean.add(o);
-		//create and set values of the new order
 		
+		//create and set values of the new order
+		mailer.mail(o.getOrder_Customer().getUser_Email(), 
+				"Your order for the date of "+o.getOrder_Date()
+				+" has been " + st.getStatus_Type().toString()
+				+". Please contact your caterer if you feel "
+				+ "this was in error."  );
 		dao.updateOrder(o);
 		s.setAttribute("uOrders", oBean);
 		return "";
@@ -211,7 +293,9 @@ public class CatererController {
 				} else {
 					//get caterer's orders
 					Caterer c = dao.getCatererByUserId(u.getUser_Id());
+					
 					List<Order> orders=dao.getOrdersByCatererId(c.getCaterer_Id());
+					s.setAttribute("catererBean", c);
 					s.setAttribute("uOrders", orders);
  					return new ModelAndView("redirect:/caterer");
 				}
@@ -228,9 +312,36 @@ public class CatererController {
 	public String catererView(ModelAndView m) {
 		return "caterer";
 	}
+	@RequestMapping(value = { "/catererInfo" }, method = RequestMethod.GET)
+	public String catererInfoView(ModelAndView m) {
+		DaoImpl dao = new DaoImpl();
+		Caterer c = (Caterer) s.getAttribute("catererBean");
+		//if(s.getAttribute("reviewList")!=null && s.getAttribute("reviewList")!=""){
+			List<Review> reviews = dao.getReviewByCatererId(c.getCaterer_Id());
+			float totalRating=0;
+			for (Review review : reviews) {
+                totalRating += review.getReview_Rating();
+            }
+            totalRating /= reviews.size();
+            // totalRating = (float) (Math.round(totalRating*100.0)/100.0);
+
+            DecimalFormat df = new DecimalFormat("###.#");
+            totalRating = Float.valueOf(df.format(totalRating));
+		
+			s.setAttribute("catererAverageReview", totalRating);
+			s.setAttribute("reviewList", reviews);
+			
+		
+		return "catererInfo";
+	}
 	
 	@RequestMapping(value = { "/logout" }, method = RequestMethod.GET)
 	public String addPerson(Model m) {
 		return "logout";
+	}
+	
+	@RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
+	public String newUser(Model m) {
+		return "newUser";
 	}
 }

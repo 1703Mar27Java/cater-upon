@@ -68,13 +68,13 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="checkbox">
-											<label> <input type="checkbox" /> Remember Me
-											</label>
+											<a href="newUser" class="btn btn-warning btn-xs" role="button">New User</a>
+											
 										</div>
 									</div>
 									<div class="col-md-6 forgot-pass-content">
-										<a href="javascription:void(0)" class="forgot-pass">Forgot
-											Password?</a>
+										<button data-toggle="modal" data-target="#emMod" type="button"
+											class="btn btn-warning btn-xs">Reset Email</button>
 									</div>
 								</div>
 							</div>
@@ -86,11 +86,44 @@
 		</div>
 
 	</div>
-
+	<!-- modal to email update -->
+	<div class="modal fade" id="emMod" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="form-group">
+					<label> Email to reset:</label> <input id="modEmail" type="text" />
+				</div>
+				<div class="modal-footer">
+					<button style="float: right;" id="emailUpdate" type="button"
+						class="btn btn-default" data-dismiss="modal">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+			
 </body>
 
 <script src=<c:url value="/resources/scripts/bg.js" />></script>
 <script>
+	$("#emailUpdate").click(function(){
+		console.log("reseting email "+$("#modEmail").val())
+		var e = $("#modEmail").val();
+		data={"e":e};
+		$.ajax({
+			type : "POST", 
+			dataType : 'json',
+			url : "resetEmail",
+			data : data, // Note it is important without stringifying
+			complete : function(data) {
+				
+			}
+		});
+	});
+	
 	$(document)
 			.ready(
 					function() {
