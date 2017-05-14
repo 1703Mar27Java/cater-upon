@@ -116,7 +116,7 @@
 								</div>
 								<!-- form group [order by] -->
 								<div class="form-group">
-									<button id="searchbtn" type="submit"
+									<button id="searchbtn" type="button"
 										class="btn btn-default filter-col">
 										<span class="glyphicon glyphicon-record"></span> Search
 									</button>
@@ -153,39 +153,45 @@
 	$(document)
 			.ready(
 					function() {
-						$('#TableBody').on(
-								'click',
-								'#CatererBtn',
-								function(e) {
+						$('#TableBody')
+								.on(
+										'click',
+										'#CatererBtn',
+										function(e) {
 
-									var selectedCaterer = $(this).parent()
-											.parent().children()[6].innerHTML;
-																
-									var currentCaterer = {
-										"selectedCaterer" : selectedCaterer 
-									}
-
-									$.ajax({
-										type : "Post",
-										url : "ViewCaterer",
-										data : currentCaterer,
-										complete:function(data) {
-											window.location.href = "CatererProfile";
+											var selectedCaterer = $(this)
+													.parent().parent()
+													.children()[6].innerHTML;
 											
-										}
-										
-									});
+											var selectedState = $(this)
+											.parent().parent()
+											.children()[3].innerHTML;
 
-								});
+											console.log(selectedState);
+											
+											var currentCaterer = {
+												"selectedCaterer" : selectedCaterer,
+												"selectedState" : selectedState
+											}
+
+											$
+													.ajax({
+														type : "Post",
+														url : "ViewCaterer",
+														data : currentCaterer,
+														complete : function(
+																data) {
+															window.location.href = "CatererProfile";
+
+														}
+
+													});
+
+										});
 
 						$("#searchbtn")
 								.click(
 										function() {
-
-											// 											if ($("pref-search").valid) {
-											// 												e.preventDefault();
-											// 												return false;
-											// 											}
 
 											var order = $("#pref-orderby")
 													.val();
@@ -193,6 +199,9 @@
 											var cuisine = $("#pref-perpage")
 													.val();
 											var zip = $("#pref-zip").val();
+
+											if (city == "" || zip == "")
+												return false;
 
 											var searchData = {
 												"order" : order,
@@ -217,120 +226,123 @@
 
 															var newData = data.responseText;
 
-															newData = newData
-																	.split(",");
-															console
-																	.log(newData);
+															if (newData != "undefined") {
+																newData = newData
+																		.split(",");
+																console
+																		.log(newData);
 
-															if (newData[0]
-																	.includes("["))
-																newData[0] = newData[0]
-																		.substring(1);
+																if (newData[0]
+																		.includes("["))
+																	newData[0] = newData[0]
+																			.substring(1);
 
-															var table = document
-																	.getElementById("TableBody");
-															for (var i = 0; i < newData.length / 9; i++) {
-																var row = table
-																		.insertRow(i);
-																row
-																		.setAttribute(
-																				"class",
-																				"warning");
-																var cell = row
-																		.insertCell(0);
+																var table = document
+																		.getElementById("TableBody");
+																for (var i = 0; i < newData.length / 9; i++) {
+																	var row = table
+																			.insertRow(i);
+																	row
+																			.setAttribute(
+																					"class",
+																					"warning");
+																	var cell = row
+																			.insertCell(0);
 
-																cell.innerHTML = newData[i * 9];
-																cell
-																		.setAttribute(
-																				"hidden",
-																				"true");
+																	cell.innerHTML = newData[i * 9];
+																	cell
+																			.setAttribute(
+																					"hidden",
+																					"true");
 
-																var k = 1;
-																for (var j = (i * 9) + 1, k = 1; k < 9; k++, j++) {
+																	var k = 1;
+																	for (var j = (i * 9) + 1, k = 1; k < 9; k++, j++) {
 
-																	if (k == 7)
-																		continue;
-																	if (k == 1)
-																		continue;
+																		if (k == 7)
+																			continue;
+																		if (k == 1)
+																			continue;
 
-																	if (newData[j]
-																			.includes("state_Name")) {
-																		newData[j] = newData[j]
-																				.substring(12);
-																		newData[j] = newData[j]
-																				.substring(
-																						0,
-																						newData[j].length - 1);
+																		if (newData[j]
+																				.includes("state_Name")) {
+																			newData[j] = newData[j]
+																					.substring(12);
+																			newData[j] = newData[j]
+																					.substring(
+																							0,
+																							newData[j].length - 1);
+																		}
+
+																		if (newData[j]
+																				.includes("]"))
+																			newData[j] = newData[j]
+																					.substring(
+																							0,
+																							1);
+
+																		if (!newData[j]
+																				.includes("state_Id")) {
+
+																			var cell = row
+																					.insertCell(0);
+
+																			if (k == 8) {
+																				console.log(newData[j])
+																				switch (newData[j]) {
+																				case "1":
+																					cell.innerHTML = "American";
+																					break;
+																				case "2":
+																					cell.innerHTML = "Italian";
+																					break;
+																				case "3":
+																					cell.innerHTML = "Mexican";
+																					break;
+																				case "4":
+																					cell.innerHTML = "German";
+																					break;
+																				case "5":
+																					cell.innerHTML = "Sous";
+																					break;
+																				case "6":
+																					cell.innerHTML = "Jamaican";
+																					break;
+																				case "7":
+																					cell.innerHTML = "Canadian";
+																					break;
+																				case "8":
+																					cell.innerHTML = "Chinese";
+																					break;
+																				case "9":
+																					cell.innerHTML = "Japanese";
+																					break;
+																				case "10":
+																					cell.innerHTML = "Thai";
+																					break;
+																				case "11":
+																					cell.innerHTML = "Southern";
+																					break;
+																				case "12":
+																					cell.innerHTML = "Gourmet";
+																					break;
+																				case "13":
+																					cell.innerHTML = "Party Food";
+																					break;
+																				case "14":
+																					cell.innerHTML = "Mediterranean";
+																					break;
+																				}
+
+																			} else
+																				cell.innerHTML = newData[j];
+																		}
+
 																	}
-
-																	if (newData[0]
-																			.includes("]"))
-																		newData[0] = newData[j]
-																				.substring(
-																						0,
-																						1);
-
-																	if (!newData[j]
-																			.includes("state_Id")) {
-
-																		var cell = row
-																				.insertCell(0);
-
-																		if (k == 8) {
-																			switch (newData[j]) {
-																			case "1":
-																				cell.innerHTML = "American";
-																				break;
-																			case "2":
-																				cell.innerHTML = "Italian";
-																				break;
-																			case "3":
-																				cell.innerHTML = "Mexican";
-																				break;
-																			case "4":
-																				cell.innerHTML = "German";
-																				break;
-																			case "5":
-																				cell.innerHTML = "Sous";
-																				break;
-																			case "6":
-																				cell.innerHTML = "Jamaican";
-																				break;
-																			case "7":
-																				cell.innerHTML = "Canadian";
-																				break;
-																			case "8":
-																				cell.innerHTML = "Chinese";
-																				break;
-																			case "9":
-																				cell.innerHTML = "Japanese";
-																				break;
-																			case "10":
-																				cell.innerHTML = "Thai";
-																				break;
-																			case "11":
-																				cell.innerHTML = "Southern";
-																				break;
-																			case "12":
-																				cell.innerHTML = "Gourmet";
-																				break;
-																			case "13":
-																				cell.innerHTML = "Party Food";
-																				break;
-																			case "14":
-																				cell.innerHTML = "Mediterranean";
-																				break;
-																			}
-
-																		} else
-																			cell.innerHTML = newData[j];
-																	}
+																	var cellB = row
+																			.insertCell(5);
+																	cellB.innerHTML = "<button id='CatererBtn' class='btn btn-default filter-col'>Visit</button>";
 
 																}
-																var cell = row
-																		.insertCell(5);
-																cell.innerHTML = "<button id='CatererBtn' class='btn btn-default filter-col'>Visit</button>";
-
 															}
 														}
 													});

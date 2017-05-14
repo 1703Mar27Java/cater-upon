@@ -14,6 +14,8 @@ public interface Dao {
 	public List<Order> getOrdersByCustId(int id);
 	public List<Order> getOrdersByCatererId(int id);
 	public Caterer getCatererByUserId(int id);
+	public Caterer getCatererById(int id);
+	public List<Review> getReviewByCatererId(int id);
 	// Save
 	public int saveUser(User user);
 	public int saveOrder(Order order);

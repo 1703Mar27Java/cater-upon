@@ -68,48 +68,209 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-<!-- 					<div class="well profile"> -->
-						<div class="col-sm-12">
-							<div class="col-xs-12 col-sm-8">
-								<h2><c:out value="${sessionScope.selectedCaterer}"></c:out></h2>
-								<p>
-									<strong>Description: </strong>
-								</p>
-								<p>
-									<strong>Location: </strong>
-								</p>
-								<p>
-									<strong>Cuisine: </strong>
-								</p>
-							</div>
-							<div class="col-xs-12 col-sm-4 text-center">
-								<figure> <img
-									src=<c:url value="/resources/img/pizza.jpg" />
-									style="float: left;" width="300" height="100"> <figcaption
-									class="ratings">
-								
-								</figcaption> </figure>
-							</div>
+					<!-- 					<div class="well profile"> -->
+					<div class="col-sm-12">
+						<div class="col-xs-12 col-sm-8">
+							<h2></h2>
+							<p>
+								<strong>Description: <c:out
+										value="${sessionScope.currentCaterer.getCaterer_Description()}"></c:out></strong>
+							</p>
+							<p>
+								<strong>Location: <c:out
+										value="${sessionScope.currentCaterer.getCaterer_City()}"></c:out></strong>
+								<strong> <c:out
+										value="${sessionScope.currentCaterer.getCaterer_State().getState_Name()}"></c:out></strong>
+								<strong> <c:out
+										value="${sessionScope.currentCaterer.getCaterer_Zipcode()}"></c:out></strong>
+							</p>
+							<p>
+								<strong>Cuisine: <strong><c:out
+											value="${sessionScope.cuisines.values()[	
+								sessionScope.currentCaterer.getCaterer_CuisineId()-1].toString()}"></c:out></strong></strong>
+
+
+
+							</p>
 						</div>
-						<div class="col-xs-12 divider text-center">
-							<div class="col-xs-12 col-sm-4 emphasis">
-								<h2>
-									<strong> 4.7 </strong>
-								</h2>
-								<p>
-									<small>Average Rating</small>
-								</p>
-								<button class="btn btn-success btn-block">
-									<span class="fa fa-plus-circle"></span> View Reviews
-								</button>
-							</div>
+						<div class="center">
+							<button data-toggle="modal" data-target="#squarespaceModal"
+								class="btn btn-primary center-block">Create an Order</button>
+						</div>
+					</div>
+					<div class="col-xs-12 divider text-center">
+						<div class="col-xs-12 col-sm-4 emphasis">
+							<h2>
+								<strong>${sessionScope.totalRating} </strong>
+							</h2>
+							<p>
+								<small>Average Rating</small>
+							</p>
+							<button id="viewReview" class="btn btn-success">
+								<span class="fa fa-plus-circle"></span> View Reviews
+							</button>
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-<!-- 	</div> -->
 
 
+		<!-- 	</div> -->
+
+		<div id="review" class="allreviews">
+			<c:forEach var="row" items="${reviews}">
+				<div class="column singlereview">
+					<div class="row">
+						<img src="http://dummyimage.com/60x60/666/ffffff&text=Anonymous"
+							class="img-rounded" />
+
+
+						<div class="review-block-rate">
+							<c:forEach begin="0" end="${row.getReview_Rating()-1}">
+								<button type="button" class="btn btn-warning btn-xs"
+									aria-label="Left Align">
+									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+							</c:forEach>
+
+							<c:forEach begin="0" end="${4 - row.getReview_Rating()}">
+								<button type="button" class="btn btn-default btn-grey btn-xs"
+									aria-label="Left Align">
+									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+							</c:forEach>
+
+
+						</div>
+					</div>
+					<div class="column">
+						<div class="review-block-description">"${row.getReview_Message()}"</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
+
+
+
+	<!-- line modal -->
+	<div class="modal fade" id="squarespaceModal" tabindex="-1"
+		role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+					</button>
+					<h3 class="modal-title" id="lineModalLabel">Create an Order</h3>
+				</div>
+				<div class="modal-body">
+
+					<!-- content goes here -->
+					<form>
+						<div class="form-group">
+							<label for="numAtt">Number of Attendees</label> <input
+								class="form-control" id="numAtt"
+								placeholder="Number of Attendees" type="number">
+						</div>
+
+						<div class="form-group registration-date">
+							<label class="control-label col-sm-3" for="registration-date">Date:</label><br>
+							<div class="input-group registration-date-time">
+								<span class="input-group-addon" id="basic-addon1"><span
+									class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+
+
+								<input class="form-control" name="registration_date"
+									id="registration-date" type="date"> <span
+									class="input-group-addon" id="basic-addon1"> <span
+									class="glyphicon glyphicon-time" aria-hidden="true"> </span></span> <input
+									class="form-control" name="registration_time"
+									id="registration-time" type="time"> <span
+									class="input-group-btn"> </span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-12" for="inputBody">Comments
+								(Allergies, Request, etc..)</label>
+							<div class="col-sm-12">
+
+								<textarea class="form-control" id="inputBody" type="text"
+									rows="8" data-gramm="true"
+									data-txt_gramm_id="71c8bb8e-8a51-c867-6c4f-5b14b864ac06"
+									data-gramm_id="71c8bb8e-8a51-c867-6c4f-5b14b864ac06"
+									spellcheck="false" data-gramm_editor="true"
+									style="z-index: auto; position: relative; line-height: 26.6667px; font-size: 14px; transition: none; overflow: auto; background: transparent !important;"></textarea>
+								<div>
+									<div
+										style="z-index: 2; opacity: 1; margin-left: 794px; margin-top: 197px;"
+										class="gr-textarea-btn " data-grammarly-reactid=".3">
+										<div title="Protected by Grammarly"
+											class="gr-textarea-btn_status" data-grammarly-reactid=".3.0"> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<button type="button" id="createOrderBtn" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+<script>
+	$(document).ready(function() {
+
+		$("#review").hide();
+		$("#viewReview").click(function() {
+			$("#review").toggle();
+		});
+
+		$("#createOrderBtn").click(function() {
+
+			var numAtt = $("#numAtt").val();
+			console.log(numAtt);
+
+			var comment = $("#inputBody").val();
+			console.log(comment);
+
+			var eventDate = $("#registration-date").val();
+
+			var eventTime = $("#registration-time").val();
+
+			console.log(eventTime);
+
+			if (eventDate == "" || eventTime == "")
+				return false;
+
+			var order = {
+				"numAtt" : numAtt,
+				"comment" : comment,
+				"eventDate" : eventDate,
+				"eventTime" : eventTime
+			};
+
+			console.log(order);
+
+			$.ajax({
+
+				type : "POST",
+				dataType : 'json',
+				url : "createOrder",
+				data : order,
+				complete : function(
+						data) {
+					console.log("success")
+					window.location.href = "user";
+				}
+				
+			});
+		});
+	});
+</script>
 </html>

@@ -88,9 +88,9 @@ public class DaoImpl implements Dao {
 	@Override
 	public int saveOrder(com.revature.domain.Order order) {
 		Session sesh = HibernateUtil.getSession();
-		int result = (int) sesh.save(order);
+		sesh.saveOrUpdate(order);
 
-		return result;
+		return 0;
 	}
 
 	@Override
@@ -106,6 +106,7 @@ public class DaoImpl implements Dao {
 	public void persistOrder(com.revature.domain.Order order) {
 		Session sesh = HibernateUtil.getSession();
 		Transaction tx = sesh.beginTransaction();
+		//sesh.saveOrUpdate(order);
 		sesh.persist(order);
 		tx.commit();
 		sesh.close();
@@ -339,10 +340,9 @@ public class DaoImpl implements Dao {
 		for (int i = 0; i < caterers.size(); i++) {
 			Caterer currentCaterer = caterers.get(i);
 
-			if (cuisine.equalsIgnoreCase("All")
-					|| cuisine.equalsIgnoreCase(Cuisines.values()[currentCaterer.getCaterer_CuisineId()-1].toString())) {
+			if (cuisine.equalsIgnoreCase("All") || cuisine
+					.equalsIgnoreCase(Cuisines.values()[currentCaterer.getCaterer_CuisineId() - 1].toString())) {
 
-				
 				if (!city.isEmpty())
 					if (util.DistanceBetweenTwoCity(city, currentCaterer.getCaterer_City()) < currentCaterer
 							.getCaterer_SearchRadius())
@@ -356,7 +356,10 @@ public class DaoImpl implements Dao {
 			}
 		}
 		sesh.close();
-		return availableCaterers;
+		if (!availableCaterers.isEmpty())
+			return availableCaterers;
+		else
+			return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -367,7 +370,7 @@ public class DaoImpl implements Dao {
 		cs = sesh.createQuery("from Caterer where CATERER_USER = :id").setInteger("id", id).list();
 		if (!cs.isEmpty()) {
 			c = cs.get(0);
-			
+
 		}
 		if (sesh.isOpen())
 			sesh.close();
@@ -384,5 +387,31 @@ public class DaoImpl implements Dao {
 		return orders;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Caterer getCatererById(int id) {
+		List<Caterer> cs = new ArrayList<Caterer>();
+		Caterer c = null;
+		Session sesh = HibernateUtil.getSession();
+		cs = sesh.createQuery("from Caterer where CATERER_ID = :id").setInteger("id", id).list();
+		if (!cs.isEmpty()) {
+			c = cs.get(0);
+
+		}
+		if (sesh.isOpen())
+			sesh.close();
+		return c;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Review> getReviewByCatererId(int id) {
+		List<Review> cs = new ArrayList<Review>();
+		Session sesh = HibernateUtil.getSession();
+		cs = sesh.createQuery("from Review where REVIEW_CATERER = :id").setInteger("id", id).list();
+
+		sesh.close();
+		return cs;
+	}
 
 }
