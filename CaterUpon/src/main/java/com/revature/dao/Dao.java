@@ -50,4 +50,8 @@ public interface Dao {
 	public List<Review> getReviewByCatererId(int id);
 
 	User getUserByEmail(String e);
+
+	List<Caterer> getCatererRefinedSearch(String order, String cuisine, String city, int zipcode);
+
+	Caterer getCatererById(int id);
 }
