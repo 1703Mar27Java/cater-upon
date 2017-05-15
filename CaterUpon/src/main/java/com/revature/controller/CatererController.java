@@ -360,7 +360,7 @@ public class CatererController {
 		
 	}
 
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/" }, method = RequestMethod.POST)
 	public ModelAndView welcomePage() {
 		ModelAndView model = new ModelAndView();
 		
