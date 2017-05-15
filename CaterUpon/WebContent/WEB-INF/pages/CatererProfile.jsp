@@ -48,8 +48,8 @@
 							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu " style="background-color: #495860;">
-							<li><a href="#" style="color: #F7A247;">Action</a></li>
-							<li><a href="#" style="color: #F7A247;">Another action</a></li>
+							<li><a href="user" style="color: #F7A247;">View Your Upcoming Events</a></li>
+							<li><a href="userSearch" style="color: #F7A247;">Perform another Search</a></li>
 
 							<li role="separator" class="divider" style="color: #F4BFFF;"></li>
 							<li class="dropdown-header" style="color: #F7A247;"></li>

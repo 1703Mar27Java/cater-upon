@@ -368,6 +368,58 @@ public class CatererController {
 		model.addObject("command", new User());
 		return model; 
 	}
+	
+	@RequestMapping(value = "/newUser", method = RequestMethod.POST)
+	public @ResponseBody String newUser(@RequestParam String u, @RequestParam String pw, @RequestParam String e) {
+		DaoImpl dao = new DaoImpl();
+		User newU = new User();
+		newU.setUser_Email(e);
+		newU.setUser_Username(u);
+		newU.setUser_Password(pw);
+		newU.setUser_BankBalance(0);
+		UserType ut = new UserType();
+		ut.setUserType_Type(UserTypes.Customer);
+		ut.setUserType_Id(1);
+		newU.setUser_UserType(ut);
+		dao.persistUser(newU);
+		return "";
+		
+	}
+	
+	@RequestMapping(value = "/newCaterer", method = RequestMethod.POST)
+	public @ResponseBody String newCaterer(@RequestParam String ct, @RequestParam String d, @RequestParam String u, @RequestParam String pw, @RequestParam String e, @RequestParam String c, @RequestParam String s, @RequestParam String z, @RequestParam String r) {
+		DaoImpl dao = new DaoImpl();
+		//new user part
+		User newU = new User();
+		newU.setUser_Email(e);
+		newU.setUser_Username(u);
+		newU.setUser_Password(pw);
+		newU.setUser_BankBalance(0);
+		UserType ut = new UserType();
+		ut.setUserType_Type(UserTypes.Customer);
+		ut.setUserType_Id(2);
+		newU.setUser_UserType(ut);
+		//save the user
+		dao.persistUser(newU);
+		//new caterer part
+		Caterer cate = new Caterer();
+		cate.setCaterer_City(c);
+		cate.setCaterer_Zipcode(Integer.parseInt(z));
+		cate.setCaterer_SearchRadius(Integer.parseInt(r));
+		cate.setCaterer_User(dao.getUserByUsername(u).getUser_Id());
+		Cuisines cui=Cuisines.valueOf(ct);
+		cate.setCaterer_CuisineId(cui.ordinal()+1);
+		cate.setCaterer_Description(d);
+		
+		State st=new State();
+		st.setState_Name(States.valueOf(s));
+		st.setState_Id(States.valueOf(s).ordinal()+1);
+		cate.setCaterer_State(st);
+		//save the caterer
+		dao.persistCaterer(cate);
+		return "";
+		
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("command") User p, Model m) {
@@ -377,8 +429,10 @@ public class CatererController {
 			// login test
 			// if we fail the login we go back to the login page
 			// else we check what page to reroute to based on user in DB
-			if (dao.login(p)) {
-				User u = new User(); 
+			User u = new User(); 
+			u = dao.getUserByUsername(p.getUser_Username());
+			if (u!=null && u.getUser_Username()!="" && u.getUser_Password().equals(p.getUser_Password())) {
+				
 				u = dao.getUserByUsername(p.getUser_Username());
 				System.out.println("Logging in with user: " + u); 
 				s.setAttribute("userBean", u);
