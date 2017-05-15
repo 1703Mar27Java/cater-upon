@@ -39,9 +39,9 @@
 		<nav class="navbar navbar-inverse" style="background-color: #495867 ;">
 		<div class="container">
 			<!-- Logo Image Goes Here -->
-			<a href="/CaterUpon/"><img style="float: left;" src=<c:url value="/resources/img/logo.png" /> width="300" height="75"></a>
+			<a href="/CaterUpon/login"><img style="float: left;" src=<c:url value="/resources/img/logo.png" /> width="300" height="75"></a>
 	<h2 style="color: #F7A247"> &nbsp&nbsp&nbsp You've reached this page in error.<br> 
-	<a href="/CaterUpon/"> &nbsp&nbsp&nbsp  Please return home</a></h2>
+	<a href="/CaterUpon/login"> &nbsp&nbsp&nbsp  Please return home</a></h2>
 		</nav>
 	</div>
 
