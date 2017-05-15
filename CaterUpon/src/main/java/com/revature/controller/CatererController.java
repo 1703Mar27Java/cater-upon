@@ -114,6 +114,10 @@ public class CatererController {
 		// dao.saveUser((User) s.getAttribute("userBean"));
 		// dao.saveOrder(newOrder);
 		System.out.println(newOrder);
+		List<Order> oBean = (List<Order>) s.getAttribute("uOrders");
+		oBean.add(newOrder);
+		s.setAttribute("uOrders", oBean);
+		
 		dao.persistOrder(newOrder);
 		return new ModelAndView("redirect:/user");
 	}
