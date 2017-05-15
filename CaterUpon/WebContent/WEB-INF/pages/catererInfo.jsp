@@ -82,26 +82,26 @@
 		<h2>Update Your Public Profile Here</h2>
 		<div id="alertTxt" class="alert alert-warning" role="alert"></div>
 		<div class="container">
-			<div class="row" style="width: 75%;">
+			<div class="row" style="width: 90%;">
 				<div class="col-md-4">
 					<a href="#"
 						data-tooltip="Any customers performing a search will see this as a description of your business.">
 						Public description of your business</a>
 				</div>
-				<div id="descrTxt" class="col-md-4">${catererBean.getCaterer_Description() }
+				<div id="descrTxt" class="col-md-5">${catererBean.getCaterer_Description() }
 				</div>
 				<div class="col-md-1">
 					<button data-toggle="modal" data-target="#descrMod" type="button"
 						class="btn btn-warning">Update Description</button>
 				</div>
 			</div>
-			<div class="row" style="width: 75%;">
+			<div class="row" style="width: 90%;">
 				<div class="col-md-4">
 					<a href="#"
 						data-tooltip="Your location helps determine what customers will see your business when performing a search">
 						Location </a>
 				</div>
-				<div id="locTxt" class="col-md-4">${catererBean.getCaterer_City()},
+				<div id="locTxt" class="col-md-5">${catererBean.getCaterer_City()},
 					${catererBean.getCaterer_State().getState_Name()}
 					${catererBean.getCaterer_Zipcode()}</div>
 				<div class="col-md-1">
@@ -110,30 +110,30 @@
 				</div>
 			</div>
 
-			<div class="row" style="width: 75%;">
+			<div class="row" style="width: 90%;">
 				<div class="col-md-4">
 					<a href="#"
 						data-tooltip="Any customers performing a search within this radius of your location will be able to see your profile during a search.">
 						Maximum search radius </a>
 				</div>
-				<div id="radText" class="col-md-4">${catererBean.getCaterer_SearchRadius() }
+				<div id="radText" class="col-md-5">${catererBean.getCaterer_SearchRadius() }
 					miles</div>
 				<div class="col-md-1">
 					<button data-toggle="modal" data-target="#radMod" type="button"
 						class="btn btn-warning">Update Radius</button>
 				</div>
 			</div>
-			<div class="row" style="width: 75%;">
+			<div class="row" style="width: 90%;">
 				<div class="col-md-4">Email</div>
-				<div id="em" class="col-md-4">${userBean.getUser_Email() }</div>
+				<div id="em" class="col-md-5">${userBean.getUser_Email() }</div>
 				<div class="col-md-1">
 					<button data-toggle="modal" data-target="#emMod" type="button"
 						class="btn btn-warning">Update Email</button>
 				</div>
 			</div>
-			<div class="row" style="width: 75%;">
+			<div class="row" style="width: 90%;">
 				<div class="col-md-4"></div>
-				<div class="col-md-4"></div>
+				<div class="col-md-5"></div>
 				<div class="col-md-1">
 					<button data-toggle="modal" data-target="#pwMod" type="button"
 						class="btn btn-warning">Update Password</button>

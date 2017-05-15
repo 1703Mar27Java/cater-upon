@@ -402,11 +402,13 @@ public class CatererController {
 		//save the user
 		dao.persistUser(newU);
 		//new caterer part
+		
 		Caterer cate = new Caterer();
 		cate.setCaterer_City(c);
 		cate.setCaterer_Zipcode(Integer.parseInt(z));
 		cate.setCaterer_SearchRadius(Integer.parseInt(r));
-		cate.setCaterer_User(dao.getUserByUsername(u).getUser_Id());
+		cate.setCaterer_User(newU.getUser_Id());
+		
 		Cuisines cui=Cuisines.valueOf(ct);
 		cate.setCaterer_CuisineId(cui.ordinal()+1);
 		cate.setCaterer_Description(d);
