@@ -184,7 +184,7 @@
 					url : "newCaterer",
 					data : data, // Note it is important without stringifying
 					complete : function(data) {
-						window.location.href = '/CaterUpon/';
+						window.location.href = '/CaterUpon/login';
 					}
 				});
 			}
@@ -207,7 +207,7 @@
 					url : "newUser",
 					data : data, // Note it is important without stringifying
 					complete : function(data) {
-						window.location.href = '/CaterUpon/';
+						window.location.href = '/CaterUpon/login';
 					}
 				});
 			}
